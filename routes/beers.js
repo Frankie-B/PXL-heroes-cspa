@@ -1,14 +1,20 @@
 const express = require('express');
+const axios = require('axios');
 const app = express();
 
-app.get('/', (req, res) => {
-  const customers = [
-    { id: 1, firstName: 'John', lastName: 'Doe' },
-    { id: 2, firstName: 'Ron', lastName: 'Awesome' },
-    { id: 3, firstName: 'Frankie', lastName: 'Dev' },
-  ];
+const BeerAPI =
+  'https://sandbox-api.brewerydb.com/v2/beers/?key=659d5c6b8f3d2447f090119e48202fdb';
 
-  res.json(customers);
+app.get('/', (req, res) => {
+  axios
+    .get(BeerAPI)
+    .then((BeerAPI) => {
+      let beerData = BeerAPI.data;
+      res.status(200).json({ beers: beerData });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 module.exports = app;

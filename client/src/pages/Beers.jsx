@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Default from '../Layouts/Default';
 import './Beers.scss';
-import Test from '../components/test';
+import TestBeers from '../components/TestBeers';
 
 class Beers extends Component {
   render() {
@@ -18,7 +18,7 @@ class Beers extends Component {
             </div>
           
         </div> */}
-        <Test />
+        <TestBeers />
       </Default>
     );
   }
