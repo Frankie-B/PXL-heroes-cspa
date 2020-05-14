@@ -1,0 +1,11 @@
+.Footer {
+  position: fixed;
+  bottom: 0;
+  left: 20%;
+}
+
+@media (min-width: 992px) {
+  .Footer {
+    left: 40%;
+  }
+}

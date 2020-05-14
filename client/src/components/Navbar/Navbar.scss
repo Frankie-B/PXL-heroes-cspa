@@ -1,0 +1,40 @@
+.Navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  .navbar {
+    .navbar-brand {
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      font-size: large;
+      padding: 3px 5px;
+    }
+
+    .navbar-brand:hover {
+      color: #ffffff;
+    }
+  }
+
+  .navbar-spacer {
+    flex: 2;
+  }
+
+  #navbar-btn-container {
+    display: none;
+    justify-content: flex-end;
+    width: 30%;
+    .btn-right {
+      margin-left: 1rem;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .Navbar {
+    #navbar-btn-container {
+      display: flex;
+    }
+  }
+}
