@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import './test.css';
+
+import { getAllBeers } from '../utils/auth';
 
 class TestBeers extends Component {
   constructor() {
     super();
     this.state = {
       beers: [],
+      name: '',
+      page: 1,
     };
   }
 
@@ -16,17 +20,16 @@ class TestBeers extends Component {
     //   .then((beers) =>
     //     this.setState({ beers }, () => console.log('beers fetched...', beers))
     //   );
+    // Beers.get('http://localhost:5000/beers')
+    //   .then((response) => {
+    //     console.log('all beers response: ', response);
+    //     this.setState({ beers: response.data.data });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
-    axios
-      .get('https:localhost:5000/beers/?key=659d5c6b8f3d2447f090119e48202fdb')
-
-      .then((response) => {
-        console.log('all beers response: ', response);
-        this.setState({ beers: response.data.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getAllBeers();
   }
 
   render() {
@@ -36,7 +39,7 @@ class TestBeers extends Component {
 
         <ul>
           {this.state.beers.map((beer) => (
-            <h3 key={beer.id}>{beer.data.name}</h3>
+            <h3 key={beer.id}>{beer.name}</h3>
           ))}
         </ul>
       </div>
