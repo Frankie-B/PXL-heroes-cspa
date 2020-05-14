@@ -28,7 +28,7 @@ class Home extends Component {
               Beers
             </Link>
             <Link
-              href={'/breweries'}
+              to={'/breweries'}
               className="btn btn-outline-light my-2 my-sm-0"
             >
               Breweries
