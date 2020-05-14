@@ -25,7 +25,6 @@ export const getAllBeers = (beer) => {
   })
     .then((response) => {
       console.log('all beers response: ', response);
-      this.setState({ beers: response.data.data });
     })
     .catch((error) => {
       console.log(error);

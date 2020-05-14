@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
+import getAllBeers from '../utils/auth';
 import './test.css';
-
-import { getAllBeers } from '../utils/auth';
 
 class TestBeers extends Component {
   constructor() {
