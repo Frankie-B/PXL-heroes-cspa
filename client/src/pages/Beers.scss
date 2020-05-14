@@ -1,7 +1,9 @@
 .Beers {
-  color: #ffffff;
   display: flex;
-  .beers-name {
+  flex-direction: column;
+
+  .beers-heading {
     color: #ffffff;
+    font-size: 1rem;
   }
 }

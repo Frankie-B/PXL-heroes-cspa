@@ -2,51 +2,57 @@ import React, { Component } from 'react';
 import Default from '../Layouts/Default';
 import './Beers.scss';
 import Axios from 'axios';
-import qs from 'qs';
 
 const axios = Axios.create({
   baseURL: 'http://localhost:5000/',
-  withCredentials: true, // this prevents cors errors, they also could have called it 'withCors'
+  withCredentials: true,
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
 
-const getAllBeers = (beer) => {
-  return axios({
-    method: 'GET',
-    url: 'beers',
-    data: qs.stringify(beer),
-  })
-    .then((response) => {
-      console.log('all beers response: ', response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
 class Beers extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       beers: [],
     };
+
+    this.getAllBeers = this.getAllBeers.bind(this);
+  }
+
+  getAllBeers() {
+    axios({
+      url: '/beers',
+    })
+      .then((response) => {
+        console.log('all beers response: ', response);
+        this.setState({ beers: response.data.beers.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   componentDidMount() {
-    getAllBeers();
+    this.getAllBeers();
+    console.log(this.state);
   }
+
   render() {
     return (
       <Default>
         <div className="Beers">
-          <div className="beers-container">
-            <div className="beers-heading-container">
-              <h1 className="beers-heading">Im feeling thirsty</h1>
-            </div>
+          {this.state.beers.map((beer) => (
             <div className="beers-container">
-              <h2 className="beers-name">I am thirsty</h2>
+              <div className="beers-heading-container">
+                <h1 className="beers-heading" key={beer.id}>
+                  {beer.name}
+                </h1>
+              </div>
+              <div className="beers-container">
+                <h2 className="beers-name"></h2>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </Default>
     );
