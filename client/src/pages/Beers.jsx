@@ -24,7 +24,7 @@ class Beers extends Component {
       url: '/beers',
     })
       .then((response) => {
-        console.log('all beers response: ', response);
+        console.log('Beers were successfully retrieved: ', response);
         this.setState({ beers: response.data.beers.data });
       })
       .catch((error) => {
@@ -41,18 +41,18 @@ class Beers extends Component {
     return (
       <Default>
         <div className="Beers">
-          {this.state.beers.map((beer) => (
-            <div className="beers-container">
-              <div className="beers-heading-container">
-                <h1 className="beers-heading" key={beer.id}>
-                  {beer.name}
-                </h1>
-              </div>
-              <div className="beers-container">
-                <h2 className="beers-name"></h2>
-              </div>
+          <div className="beers-container">
+            <div className="beers-heading-container">
+              <h1 className="beers-title">Index of Beers</h1>
             </div>
-          ))}
+            <div className="beers-container">
+              {this.state.beers.map((beer) => (
+                <h2 className="beers-name" key={beer.id}>
+                  {beer.name}
+                </h2>
+              ))}
+            </div>
+          </div>
         </div>
       </Default>
     );

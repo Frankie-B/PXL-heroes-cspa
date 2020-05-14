@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
 
-  .beers-heading {
-    color: #ffffff;
-    font-size: 1rem;
+  .beers-container {
+    .beers-name {
+      color: #ffffff;
+      font-size: 1rem;
+    }
   }
 }
