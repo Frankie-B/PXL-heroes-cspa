@@ -7,16 +7,6 @@ const axios = Axios.create({
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
 
-// export const getAllBeers = (beer) => {
-//   return axios({
-//     method: 'GET',
-//     url: 'beers',
-//     data: qs.stringify(beer),
-//   }).then((res) => {
-//     res.status(200).json(res.data);
-//   });
-// };
-
 export const getAllBeers = (beer) => {
   return axios({
     method: 'GET',
