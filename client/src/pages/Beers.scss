@@ -3,6 +3,8 @@
   flex-direction: column;
 
   .beers-container {
+    display: flex;
+    flex-direction: column;
     .beers-name {
       color: #ffffff;
       font-size: 1rem;

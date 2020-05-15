@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class SearchName extends Component {
+class SearchByCountry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nameValue: '',
+      countryValue: '',
     };
   }
 
   handleOnChange = (e) => {
     this.setState({
-      nameValue: e.target.value,
+      countryValue: e.target.value,
     });
     this.props.handleSearch(e.target.value);
   };
@@ -19,8 +19,8 @@ class SearchName extends Component {
     return (
       <div>
         <input
-          className="search-name form-control mr-sm-2"
-          placeholder="Brewery Name"
+          className="search-name"
+          placeholder="Search Country"
           type="text"
           name="text"
           onChange={(e) => this.handleOnChange(e)}
@@ -30,4 +30,4 @@ class SearchName extends Component {
   }
 }
 
-export default SearchName;
+export default SearchByCountry;

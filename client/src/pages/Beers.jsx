@@ -18,10 +18,10 @@ class Beers extends Component {
     };
 
     this.getAllBeers = this.getAllBeers.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.SearchByName = this.SearchByName.bind(this);
+    // this.handleInputChange = this.handleInputChange.bind(this);
+    // this.SearchByName = this.SearchByName.bind(this);
     //this.handleSearchType = this.handleSearchType.bind(this);
-    this.handleClick = this.handleClick(this);
+    // this.handleClick = this.handleClick(this);
   }
 
   componentDidMount() {
@@ -89,11 +89,9 @@ class Beers extends Component {
             <div className="beers-container">
               {this.state.beers.map((beer, index) => {
                 return (
-                  <div
-                    className="beers-name"
-                    key={index}
-                    beer={beer.name}
-                  ></div>
+                  <h3 className="beers-name" key={index}>
+                    {beer.name}
+                  </h3>
                 );
               })}
             </div>

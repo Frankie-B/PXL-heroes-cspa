@@ -10,11 +10,11 @@ app.get('/breweries', (req, res) => {
     .get(BreweryAPI)
     .then((res) => {
       let breweryData = BreweryAPI.data;
-      res.status(200).res.json({ beers: breweryData });
+      res.json({ beers: breweryData }).status(200);
     })
     .catch((err) => {
       console.log(`Whoops looks like the keg is dry!: ${err}`);
-      res.status(500).json({ err });
+      res.json({ err }).status(500);
     });
 });
 

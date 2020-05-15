@@ -1,25 +1,39 @@
 .Home {
   display: flex;
   flex-direction: column;
-  min-height: 80vh;
+  height: 100%;
+  position: relative;
 
   .home-heading-container {
+    background: url('https://res.cloudinary.com/frankie-dev/image/upload/v1589526699/PXL-Assets/alcohol-bar-bartender-beerdark.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
     text-align: center;
+    height: 300px;
+    width: 100vw;
     .home-heading {
       border: 1px solid #ffffff;
       padding: 3px 5px;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
       margin-top: 2rem;
+      width: 100%;
     }
 
     .heading-tagline {
       border-bottom: 2px solid #ffffff;
       font-size: 1.25rem;
       padding-bottom: 0.5rem;
-      width: 60%;
+      width: 70%;
     }
   }
 
@@ -30,11 +44,26 @@
   .home-btn-container {
     display: flex;
     flex-direction: column;
+    position: fixed;
+    bottom: 10%;
+    left: 10%;
+    width: 80vw;
   }
 }
 
 @media (min-width: 992px) {
   .Home {
+    .home-heading-container {
+      width: 50vw;
+      .home-heading {
+        width: 50%;
+      }
+
+      .heading-tagline {
+        width: 30%;
+      }
+    }
+
     .home-btn-container {
       display: none;
     }

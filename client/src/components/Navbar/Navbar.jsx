@@ -13,9 +13,9 @@ class Navbar extends Component {
     return (
       <div className="Navbar">
         <nav className="navbar navbar-expand-lg navbar-light">
-          <a className="navbar-brand" href="/">
+          <Link to="/" className="navbar-brand">
             Endeavour Co.
-          </a>
+          </Link>
           <div className="navbar-spacer"></div>
 
           <div className="collapse navbar-collapse" id="navbar-btn-container">
