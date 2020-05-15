@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Default from '../Layouts/Default';
 import './Beers.scss';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const axios = Axios.create({
   baseURL: 'http://localhost:5000/',
@@ -18,15 +19,10 @@ class Beers extends Component {
     };
 
     this.getAllBeers = this.getAllBeers.bind(this);
-    // this.handleInputChange = this.handleInputChange.bind(this);
-    // this.SearchByName = this.SearchByName.bind(this);
-    //this.handleSearchType = this.handleSearchType.bind(this);
-    // this.handleClick = this.handleClick(this);
   }
 
   componentDidMount() {
     this.getAllBeers();
-    console.log(this.state);
   }
 
   getAllBeers() {
@@ -46,55 +42,19 @@ class Beers extends Component {
     return (
       <Default>
         <div className="Beers">
-          <div className="beers-container">
-            <div className="beers-heading-container">
-              <h1 className="beers-title">Index of Beers</h1>
-            </div>
-            <div className="beers-search">
-              <form
-                onSubmit={this.getAllBeers}
-                class="form-inline my-2 my-lg-0"
+          <div className="hero-title">
+            <h1>Beers</h1>
+          </div>
+          <div className="beers-container container">
+            {this.state.beers.map((beer) => (
+              <Link
+                key={beer.id}
+                to={`/beer-info/${beer.id}`}
+                className="beers-link-item"
               >
-                <input
-                  // onChange={}
-                  class="beers-search-bar form-control mr-sm-2"
-                  type="search"
-                  placeholder="Search Beers..."
-                  aria-label="Search"
-                />
-
-                <button
-                  class="beers-search-btn btn btn-outline-light my-2 my-sm-0"
-                  type="submit"
-                >
-                  Search
-                </button>
-                <select
-                  name="search"
-                  // onChange={}
-                  class="dropdown beers-search-btn btn btn-outline-light my-2 my-sm-0"
-                >
-                  <option className="dropdown-item" value="all" selected>
-                    Filter
-                  </option>
-                  <option className="dropdown-item" value="name">
-                    By Name
-                  </option>
-                  <option className="dropdown-item" value="distance">
-                    By Type
-                  </option>
-                </select>
-              </form>
-            </div>
-            <div className="beers-container">
-              {this.state.beers.map((beer, index) => {
-                return (
-                  <h3 className="beers-name" key={index}>
-                    {beer.name}
-                  </h3>
-                );
-              })}
-            </div>
+                <h2 className="beers-name">{beer.name}</h2>
+              </Link>
+            ))}
           </div>
         </div>
       </Default>

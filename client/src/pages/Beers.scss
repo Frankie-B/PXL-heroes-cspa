@@ -1,13 +1,44 @@
 .Beers {
   display: flex;
+  justify-content: center;
   flex-direction: column;
-
+  min-height: 100%;
   .beers-container {
     display: flex;
-    flex-direction: column;
-    .beers-name {
+    flex-flow: wrap;
+    // flex-direction: column;
+    margin: 0 auto;
+    padding: 3% 5%;
+    text-align: left;
+    .beers-link-item {
       color: #ffffff;
-      font-size: 1rem;
+      // width: 50%;
+      .beers-name {
+        font-size: 0.75rem;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .Beers {
+    .beers-container {
+      display: flex;
+      flex-flow: wrap;
+      justify-content: center;
+      padding: 3% 5%;
+      .beers-link-item {
+        font-size: 0.5rem;
+        height: 50%;
+        margin: 0 auto;
+        text-align: left;
+        width: 20%;
+        .beers-name {
+          font-size: 0.75rem;
+          width: 70%;
+        }
+      }
     }
   }
 }

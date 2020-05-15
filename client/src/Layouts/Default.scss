@@ -1,0 +1,10 @@
+.Default {
+  position: relative;
+  padding: 15% 0;
+}
+
+@media (min-width: 992px) {
+  .Default {
+    padding: 5% 0;
+  }
+}
