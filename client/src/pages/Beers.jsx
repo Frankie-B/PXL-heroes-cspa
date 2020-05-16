@@ -41,9 +41,39 @@ class Beers extends Component {
   render() {
     return (
       <Default>
-        <div className="Beers">
-          <div className="hero-title">
-            <h1>Beers</h1>
+        <div className="Beers container">
+          <div className="beers-header">
+            <h1 className="beers-title">Search Beers</h1>
+          </div>
+          <div className="beers-search">
+            <form className="beers-form form-inline my-2 my-lg-0">
+              <input
+                className="form-control mr-sm-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button className="btn btn-dark my-2 my-sm-0" type="submit">
+                Search
+              </button>
+            </form>
+
+            <div className="beers-filter-container">
+              <select
+                name=""
+                className="beers-filter btn btn-secondary dropdown-toggle"
+              >
+                <option value="" className="beers-filter-item" defaultValue>
+                  Filter Beers
+                </option>
+                <option value="" className="beers-filter-item">
+                  Filter by Type
+                </option>
+                <option value="" className="beers-filter-item">
+                  Filter by country
+                </option>
+              </select>
+            </div>
           </div>
           <div className="beers-container container">
             {this.state.beers.map((beer) => (
