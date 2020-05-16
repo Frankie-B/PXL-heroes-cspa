@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Default from '../Layouts/Default';
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
+import axios from 'axios';
 
 import './Breweries.scss';
 
-const axios = Axios.create({
-  baseURL: 'http://localhost:5000/',
-  withCredentials: true,
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
-});
+// const axios = Axios.create({
+//   baseURL: ``,
+//   withCredentials: true,
+//   headers: { 'content-type': 'application/x-www-form-urlencoded' },
+// });
 
 class Breweries extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class Breweries extends Component {
 
   getCountryCode() {
     axios({
-      url: '/breweries',
+      url: `http://localhost:3000/breweries/?countryIsoCode=${this.state.select.selectedCode}&order=breweryName&key=659d5c6b8f3d2447f090119e48202fdb`,
     })
       .then((res) => {
         let code = [
@@ -56,15 +56,12 @@ class Breweries extends Component {
     axios({
       url: '/breweries',
     })
-      .then((res) => {
-        this.setState({
-          breweries: res.data.data,
-        });
-        // this.removeDuplicates();
-        // console.log(this.state.breweries);
+      .then((response) => {
+        console.log('Breweries were successfully retrieved: ', response);
+        this.setState({ Breweries: response.data.beers.data });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   }
 
