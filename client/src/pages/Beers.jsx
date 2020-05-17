@@ -19,10 +19,14 @@ class Beers extends Component {
       name: '',
       query: '',
       beers: [],
+      sortByCountry: false,
+      sortByName: false,
     };
     this.getBeersInfo = this.getBeersInfo.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.sortByCountry = this.sortByCountry.bind(this);
+    this.sortByName = this.sortByName.bind(this);
   }
 
   handleClick(e) {
@@ -31,8 +35,13 @@ class Beers extends Component {
   }
 
   getBeersInfo() {
+    let url = '/beers';
+    if (this.state.query) {
+      url += '?';
+      url += this.state.query;
+    }
     axios({
-      url: '/beers',
+      url: `${url}/?key=659d5c6b8f3d2447f090119e48202fdb&name`,
     })
       .then((response) => {
         console.log('Beers were successfully retrieved: ', response);
@@ -49,14 +58,25 @@ class Beers extends Component {
         query: this.search.value,
       },
       () => {
-        if (this.state.query && this.state.query.length > 1) {
-          if (this.state.query.length % 2 === 0) {
-            this.getBeersInfo();
-          }
-        } else if (!this.state.query) {
+        if (this.state.query) {
+          this.getBeersInfo();
         }
       }
     );
+  }
+
+  sortByCountry(e) {
+    e.preventDefault();
+    this.setState({
+      sortByCountry: !this.state.sortByCountry,
+    });
+  }
+
+  sortByName(e) {
+    e.preventDefault();
+    this.setState({
+      sortByName: !this.state.sortByName,
+    });
   }
 
   render() {
@@ -66,16 +86,17 @@ class Beers extends Component {
           <div className="beers-header">
             <h1 className="beers-title">Search Beers</h1>
           </div>
+
           <div className="beers-search">
-            <form>
+            <form className="beers-form form-inline my-2 my-lg-0">
               <input
-                placeholder="Search for..."
+                className="form-control "
+                placeholder="Search Beer"
                 ref={(input) => (this.search = input)}
                 onChange={this.handleInputChange}
               />
-
               <button
-                onClick={this.handleClick}
+                // onClick={this.handleClick}
                 className="btn btn-dark my-2 my-sm-0"
                 type="submit"
               >
@@ -83,8 +104,35 @@ class Beers extends Component {
               </button>
             </form>
 
-            <div className="beers-container container">
-              {this.state.getBeersInfo ? (
+            <div className="beers-filters">
+              <div className="beers-filter form-group form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name="sortByName"
+                  value={this.state.sortByName}
+                  onClick={this.sortByName}
+                />
+                <label className="form-check-label" htmlFor="exampleCheck1">
+                  Sort by name
+                </label>
+              </div>
+              <div className="beers-filter form-group form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name="sortCountry"
+                  value={this.state.sortCountry}
+                  onClick={this.sortCountry}
+                />
+                <label className="form-check-label" htmlFor="exampleCheck1">
+                  Sort by Country
+                </label>
+              </div>
+            </div>
+
+            <div className="container">
+              {this.state.beers ? (
                 <div className="beers-container container">
                   {this.state.beers.map((beer) => (
                     <div
@@ -92,23 +140,29 @@ class Beers extends Component {
                       // to={`/beer-info/${beer.id}`}
                       className="beers-link-item"
                     >
-                      {' '}
                       {beer.name
                         .toLowerCase()
-                        .includes(this.state.name.toLowerCase()) ? (
+                        .includes(this.state.query.toLowerCase()) ? (
                         <div>
-                          <Link to={`/beer/${beer.id}`}>
+                          <Link
+                            to={`/beer/${beer.id}`}
+                            className="beers-link-item"
+                          >
                             <h5 className="beers-name">{beer.name}</h5>
                           </Link>
                         </div>
                       ) : (
-                        <p>not exists</p>
+                        <p className="beers-not-found">
+                          That beer does not exists
+                        </p>
                       )}
                     </div>
                   ))}
                 </div>
               ) : (
-                <h4>Nothing here, try another name</h4>
+                <h4 className="beers-error">
+                  Whoops the fridge is empty, try another name
+                </h4>
               )}
             </div>
           </div>
