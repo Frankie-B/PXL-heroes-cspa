@@ -16,6 +16,7 @@ class Beers extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
       query: '',
       beers: [],
     };
@@ -72,7 +73,7 @@ class Beers extends Component {
                 ref={(input) => (this.search = input)}
                 onChange={this.handleInputChange}
               />
-              {/* <Suggestions results={this.state.beers} className={'beers-name'} /> */}
+
               <button
                 onClick={this.handleClick}
                 className="btn btn-dark my-2 my-sm-0"
@@ -83,15 +84,32 @@ class Beers extends Component {
             </form>
 
             <div className="beers-container container">
-              {this.state.beers.map((beer) => (
-                <Link
-                  key={beer.id}
-                  to={`/beer-info/${beer.id}`}
-                  className="beers-link-item"
-                >
-                  <h2 className="beers-name">{beer.name}</h2>
-                </Link>
-              ))}
+              {this.state.getBeersInfo ? (
+                <div className="beers-container container">
+                  {this.state.beers.map((beer) => (
+                    <div
+                      key={beer.id}
+                      // to={`/beer-info/${beer.id}`}
+                      className="beers-link-item"
+                    >
+                      {' '}
+                      {beer.name
+                        .toLowerCase()
+                        .includes(this.state.name.toLowerCase()) ? (
+                        <div>
+                          <Link to={`/beer/${beer.id}`}>
+                            <h5 className="beers-name">{beer.name}</h5>
+                          </Link>
+                        </div>
+                      ) : (
+                        <p>not exists</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <h4>Nothing here, try another name</h4>
+              )}
             </div>
           </div>
         </div>
