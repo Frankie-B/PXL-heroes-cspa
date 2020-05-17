@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Default from '../Layouts/Default';
-import './Beers.scss';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import './Beers.scss';
+
+// import Suggestions from '../components/Search/Suggestions/Suggestions';
 
 const axios = Axios.create({
   baseURL: 'http://localhost:5000/',
@@ -14,18 +16,20 @@ class Beers extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      query: '',
       beers: [],
-      inputValue: '',
     };
-
-    this.getAllBeers = this.getAllBeers.bind(this);
+    this.getBeersInfo = this.getBeersInfo.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount() {
-    this.getAllBeers();
+  handleClick(e) {
+    e.preventDefault();
+    this.getBeersInfo();
   }
 
-  getAllBeers() {
+  getBeersInfo() {
     axios({
       url: '/beers',
     })
@@ -38,6 +42,22 @@ class Beers extends Component {
       });
   }
 
+  handleInputChange() {
+    this.setState(
+      {
+        query: this.search.value,
+      },
+      () => {
+        if (this.state.query && this.state.query.length > 1) {
+          if (this.state.query.length % 2 === 0) {
+            this.getBeersInfo();
+          }
+        } else if (!this.state.query) {
+        }
+      }
+    );
+  }
+
   render() {
     return (
       <Default>
@@ -46,45 +66,33 @@ class Beers extends Component {
             <h1 className="beers-title">Search Beers</h1>
           </div>
           <div className="beers-search">
-            <form className="beers-form form-inline my-2 my-lg-0">
+            <form>
               <input
-                className="form-control mr-sm-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
+                placeholder="Search for..."
+                ref={(input) => (this.search = input)}
+                onChange={this.handleInputChange}
               />
-              <button className="btn btn-dark my-2 my-sm-0" type="submit">
+              {/* <Suggestions results={this.state.beers} className={'beers-name'} /> */}
+              <button
+                onClick={this.handleClick}
+                className="btn btn-dark my-2 my-sm-0"
+                type="submit"
+              >
                 Search
               </button>
             </form>
 
-            <div className="beers-filter-container">
-              <select
-                name=""
-                className="beers-filter btn btn-secondary dropdown-toggle"
-              >
-                <option value="" className="beers-filter-item" defaultValue>
-                  Filter Beers
-                </option>
-                <option value="" className="beers-filter-item">
-                  Filter by Type
-                </option>
-                <option value="" className="beers-filter-item">
-                  Filter by country
-                </option>
-              </select>
+            <div className="beers-container container">
+              {this.state.beers.map((beer) => (
+                <Link
+                  key={beer.id}
+                  to={`/beer-info/${beer.id}`}
+                  className="beers-link-item"
+                >
+                  <h2 className="beers-name">{beer.name}</h2>
+                </Link>
+              ))}
             </div>
-          </div>
-          <div className="beers-container container">
-            {this.state.beers.map((beer) => (
-              <Link
-                key={beer.id}
-                to={`/beer-info/${beer.id}`}
-                className="beers-link-item"
-              >
-                <h2 className="beers-name">{beer.name}</h2>
-              </Link>
-            ))}
           </div>
         </div>
       </Default>
