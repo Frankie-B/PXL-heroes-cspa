@@ -22,44 +22,48 @@ class Beers extends Component {
       sortByCountry: false,
       sortByName: false,
     };
-    this.getBeersInfo = this.getBeersInfo.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.getBeersByName = this.getBeersByName.bind(this);
+    // this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.sortByCountry = this.sortByCountry.bind(this);
     this.sortByName = this.sortByName.bind(this);
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    this.getBeersInfo();
+  componentDidMount() {
+    this.getBeersByName();
   }
 
-  getBeersInfo() {
+  handleClick(e) {
+    e.preventDefault();
+    this.getBeersByName();
+  }
+
+  getBeersByName() {
     let url = '/beers';
     if (this.state.query) {
       url += '?';
       url += this.state.query;
     }
     axios({
-      url: `${url}/?key=659d5c6b8f3d2447f090119e48202fdb&name`,
+      url: `${url}/?key=659d5c6b8f3d2447f090119e48202fdb&withBreweries=Y`,
     })
       .then((response) => {
         console.log('Beers were successfully retrieved: ', response);
-        this.setState({ beers: response.data.beers.data });
+        this.setState({ beers: response.data.beers });
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  handleInputChange() {
+  handleClick() {
     this.setState(
       {
         query: this.search.value,
       },
       () => {
         if (this.state.query) {
-          this.getBeersInfo();
+          this.getBeersByName();
         }
       }
     );
@@ -96,7 +100,7 @@ class Beers extends Component {
                 onChange={this.handleInputChange}
               />
               <button
-                // onClick={this.handleClick}
+                onClick={this.handleClick}
                 className="btn btn-dark my-2 my-sm-0"
                 type="submit"
               >
@@ -135,17 +139,13 @@ class Beers extends Component {
               {this.state.beers ? (
                 <div className="beers-container container">
                   {this.state.beers.map((beer) => (
-                    <div
-                      key={beer.id}
-                      // to={`/beer-info/${beer.id}`}
-                      className="beers-link-item"
-                    >
+                    <div key={beer.id} className="beers-link-item">
                       {beer.name
                         .toLowerCase()
                         .includes(this.state.query.toLowerCase()) ? (
                         <div>
                           <Link
-                            to={`/beer/${beer.id}`}
+                            to={`/beers/${beer.id}`}
                             className="beers-link-item"
                           >
                             <h5 className="beers-name">{beer.name}</h5>

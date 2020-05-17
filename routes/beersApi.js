@@ -8,29 +8,27 @@ router.get('/beers', function (req, res) {
   )
     .then((response) => {
       console.log('api response', response.data.data);
-      res.json({ beers: response.data.data });
+      res.json({ beers: response.data.data }).status(200);
     })
     .catch((err) => {
-      console.log(`get beers error: ${err}`);
-      res.status(500);
-      res.json({ err });
+      console.log(`Whoops seems that the keg is dry!: ${err}`);
+      res.json({ err }).status(500);
     });
 });
 
-router.get('/beers/:id', function (req, res) {
-  console.log('XXXX', req.params);
+router.get('/beer/:id', function (req, res) {
+  console.log(req.params);
   const selectedBrewery = req.params.id;
   Axios.get(
     `https://sandbox-api.brewerydb.com/v2/beer/${selectedBrewery}/?key=${process.env.API_KEY}`
   )
     .then((response) => {
       console.log('api response', response.data.data);
-      res.json({ beers: response.data.data });
+      res.json({ beers: response.data }).status(200);
     })
     .catch((err) => {
-      console.log(`get beers error: ${err}`);
-      res.status(500);
-      res.json({ err });
+      console.log(`Whoops seems that the keg is dry!: ${err}`);
+      res.json({ err }).status(500);
     });
 });
 
@@ -40,12 +38,11 @@ router.get('/breweries', function (req, res) {
   )
     .then((response) => {
       console.log('api response', response.data.data);
-      res.json({ beers: response.data.data });
+      res.json({ beers: response.data.data }).status(200);
     })
     .catch((err) => {
-      console.log(`get beers error: ${err}`);
-      res.status(500);
-      res.json({ err });
+      console.log(`This is not the beer you are looking for: ${err}`);
+      res.json({ err }).status(500);
     });
 });
 
@@ -57,12 +54,11 @@ router.get('/breweries/:id', function (req, res) {
   )
     .then((response) => {
       console.log('api response', response.data.data);
-      res.json({ beers: response.data.data });
+      res.json({ beers: response.data.data }).status(200);
     })
     .catch((err) => {
-      console.log(`get beers error: ${err}`);
-      res.status(500);
-      res.json({ err });
+      console.log(`This is not the beer you are looking for: ${err}`);
+      res.json({ err }).status(500);
     });
 });
 
