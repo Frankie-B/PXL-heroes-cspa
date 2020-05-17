@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './Beer.scss';
 
 const axios = Axios.create({
-  baseURL: 'http://localhost:5000/',
+  baseURL: 'http://localhost:3000/',
   withCredentials: true,
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
@@ -34,7 +34,7 @@ class Beer extends Component {
     })
       .then((res) => {
         this.setState({
-          beer: res.data.beers,
+          beer: res.data,
         });
         console.log(this.state.beer);
       })

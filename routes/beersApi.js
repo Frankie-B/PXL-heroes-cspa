@@ -24,7 +24,7 @@ router.get('/beer/:id', function (req, res) {
   )
     .then((response) => {
       console.log('api response', response.data.data);
-      res.json({ beers: response.data }).status(200);
+      res.json({ beers: response.data.data }).status(200);
     })
     .catch((err) => {
       console.log(`Whoops seems that the keg is dry!: ${err}`);

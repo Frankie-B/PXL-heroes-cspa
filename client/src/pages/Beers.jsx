@@ -33,10 +33,10 @@ class Beers extends Component {
     this.getBeersByName();
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    this.getBeersByName();
-  }
+  // handleClick(e) {
+  //   e.preventDefault();
+  //   this.getBeersByName();
+  // }
 
   getBeersByName() {
     let url = '/beers';
