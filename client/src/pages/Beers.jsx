@@ -181,6 +181,13 @@ class Beers extends Component {
               >
                 Search
               </button>
+              {/* <button
+                onClick={this.getAllBeersType}
+                className="btn btn-dark my-2 my-sm-0"
+                type="submit"
+              >
+                Search
+              </button> */}
             </div>
 
             <div className="select">
@@ -212,7 +219,7 @@ class Beers extends Component {
                         .includes(this.state.name.toLowerCase()) ? (
                         <div>
                           <Link
-                            to={`/beers/${type.id}`}
+                            to={`/beer/${type.id}`}
                             className="beers-link-item"
                           >
                             <h5 className="beers-name">{type.name}</h5>
@@ -231,9 +238,7 @@ class Beers extends Component {
                   Whoops the fridge is empty, try another name
                 </h4>
               )}
-            </div>
 
-            <div className="container">
               {this.state.beersByName ? (
                 <div className="beers-container container">
                   {this.state.beersByName.map((beer) => (
@@ -262,19 +267,17 @@ class Beers extends Component {
                   Whoops the fridge is empty, try another name
                 </h4>
               )}
-            </div>
 
-            <div className="container">
               {this.state.beersByCountry ? (
                 <div className="beers-container container">
                   {this.state.beersByCountry.map((country) => (
                     <div key={country.id} className="beers-link-item">
-                      {country.name
-                        .toLowerCase()
-                        .includes(this.state.name.toLowerCase()) ? (
+                      {country.breweries[0].locations[0].countryIsoCode.includes(
+                        this.state.select.selectedCode
+                      ) ? (
                         <div>
                           <Link
-                            to={`/beers/${country.id}`}
+                            to={`/beer/${country.id}`}
                             className="beers-link-item"
                           >
                             <h5 className="beers-name">{country.name}</h5>
