@@ -158,6 +158,7 @@ class Beers extends Component {
             <div className="beers-form-">
               <form className="beers-form form-inline my-2 my-lg-0">
                 <input
+                  type="text"
                   className="form-control "
                   placeholder="Search beers by name"
                   value={this.state.name}
@@ -166,6 +167,7 @@ class Beers extends Component {
               </form>
               <form className="beers-form form-inline my-2 my-lg-0">
                 <input
+                  type="text"
                   className="form-control "
                   placeholder="Search beers by type"
                   value={this.state.type}

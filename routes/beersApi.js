@@ -18,7 +18,7 @@ router.get('/beers', (req, res) => {
 
 router.get('/beers/search', (req, res) => {
   Axios.get(
-    `https://sandbox-api.brewerydb.com/v2/search?key=${process.env.API_KEY}&p=${this.state.page}&type=beer&q=${this.state.type}`
+    `https://sandbox-api.brewerydb.com/v2/search?key=${process.env.API_KEY}`
   )
     .then((response) => {
       console.log('api response', response.data.data);
