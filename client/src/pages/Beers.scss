@@ -12,10 +12,11 @@
     .beers-form.form-inline {
       display: flex;
       flex-direction: column;
+      width: 80vw;
+    }
+
+    button {
       width: 100%;
-      button {
-        width: 100%;
-      }
     }
   }
 
@@ -72,10 +73,16 @@
     .beers-search {
       width: 80vw;
       .beers-form.form-inline {
-        width: 45%;
+        width: 40vw;
         input {
+          margin: 0.5rem 0;
           width: 100%;
         }
+      }
+
+      button {
+        margin-top: 1rem;
+        width: 100%;
       }
     }
     .beers-filter {

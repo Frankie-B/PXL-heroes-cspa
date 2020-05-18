@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './Beer.scss';
 
 const axios = Axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'http://localhost:5000/',
   withCredentials: true,
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
@@ -27,8 +27,9 @@ class Beer extends Component {
     let url = '/beer';
     if (this.state.query) {
       url += '?';
-      url += this.state.query;
+      url += this.state.beer;
     }
+
     axios({
       url: `${url}/${this.props.match.params.id}/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb`,
     })

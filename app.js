@@ -5,9 +5,6 @@ const cors = require('cors');
 
 const port = 5000;
 
-// app.use('/proxy', proxy('https://sandbox-api.brewerydb.com/v2/beers/'));
-
-// app.use('/proxy', proxy('http://localhost:3000'));
 
 app.use(
   cors({

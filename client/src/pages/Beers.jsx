@@ -16,71 +16,134 @@ class Beers extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      select: {
+        selectedCode: '',
+      },
       name: '',
-      query: '',
-      beers: [],
-      sortByCountry: false,
-      sortByName: false,
+      type: '',
+      beersByName: [],
+      beersByType: [],
+      beersByCountry: [],
+      countryCode: [],
+      page: 1,
     };
     this.getBeersByName = this.getBeersByName.bind(this);
-    // this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.sortByCountry = this.sortByCountry.bind(this);
-    this.sortByName = this.sortByName.bind(this);
+    this.getAllBeersName = this.getAllBeersName.bind(this);
+    this.getAllBeersType = this.getAllBeersType.bind(this);
+    this.getAllCountries = this.getAllCountries.bind(this);
+    this.handleTypeInput = this.handleTypeInput.bind(this);
+    this.handleNameInput = this.handleNameInput.bind(this);
+    this.getBeersByType = this.getBeersByType.bind(this);
+    this.getBeersByCountry = this.getBeersByCountry.bind(this);
+    this.getCountryCodes = this.getCountryCodes.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
   }
 
   componentDidMount() {
+    this.getCountryCodes();
+  }
+
+  handleNameInput(e) {
+    let nameInputVal = e.target.value;
+    this.setState({
+      name: nameInputVal.toLowerCase(),
+    });
+  }
+
+  handleTypeInput(e) {
+    let typeInputVal = e.target.value;
+    this.setState({
+      type: typeInputVal.toLowerCase(),
+    });
+  }
+
+  handleCountryChange(e) {
+    e.preventDefault();
+    let updatedCountryCode = this.state.select;
+    updatedCountryCode[e.target.name] = e.target.value;
+    this.getAllCountries();
+    this.setState({
+      select: updatedCountryCode,
+    });
+    this.getAllCountries();
+  }
+
+  getAllBeersName() {
     this.getBeersByName();
   }
 
-  // handleClick(e) {
-  //   e.preventDefault();
-  //   this.getBeersByName();
-  // }
+  getAllBeersType() {
+    this.getBeersByType();
+  }
+
+  getAllCountries() {
+    this.getBeersByCountry();
+  }
 
   getBeersByName() {
     let url = '/beers';
-    if (this.state.query) {
+    if (this.state.name) {
       url += '?';
-      url += this.state.query;
+      url += this.state.name;
     }
     axios({
-      url: `${url}/?key=659d5c6b8f3d2447f090119e48202fdb&withBreweries=Y`,
+      url: `${url}/?key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.name}&withBreweries=Y`,
     })
       .then((response) => {
         console.log('Beers were successfully retrieved: ', response);
-        this.setState({ beers: response.data.beers });
+        this.setState({ beersByName: response.data.beers });
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  handleClick() {
-    this.setState(
-      {
-        query: this.search.value,
-      },
-      () => {
-        if (this.state.query) {
-          this.getBeersByName();
-        }
-      }
-    );
+  getBeersByType() {
+    axios({
+      method: 'GET',
+      url: `/beers/search/?key=659d5c6b8f3d2447f090119e48202fdb&p=${this.state.page}&type=beer&q=${this.state.type}`,
+    })
+      .then((res) => {
+        this.setState({
+          beersByType: res.data.beers,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  sortByCountry(e) {
-    e.preventDefault();
-    this.setState({
-      sortByCountry: !this.state.sortByCountry,
-    });
+  getCountryCodes() {
+    axios({
+      url: `/beers/locations/?key=659d5c6b8f3d2447f090119e48202fdb`,
+    })
+      .then((res) => {
+        let code = [
+          ...new Set(res.data.data.map((item) => item.countryIsoCode)),
+        ];
+        this.setState({
+          countryCode: code,
+        });
+        console.log(this.state.countryCode.toString());
+      })
+      .catch((err) => {
+        console.log('No more beers here');
+      });
   }
 
-  sortByName(e) {
-    e.preventDefault();
-    this.setState({
-      sortByName: !this.state.sortByName,
-    });
+  getBeersByCountry() {
+    axios({
+      url: `/beers/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb${this.state.page}`,
+    })
+      .then((res) => {
+        this.setState({
+          beersByCountry: res.data.beers,
+        });
+        this.removeDuplicates();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -92,63 +155,127 @@ class Beers extends Component {
           </div>
 
           <div className="beers-search">
-            <form className="beers-form form-inline my-2 my-lg-0">
-              <input
-                className="form-control "
-                placeholder="Search Beer"
-                ref={(input) => (this.search = input)}
-                onChange={this.handleInputChange}
-              />
+            <div className="beers-form-">
+              <form className="beers-form form-inline my-2 my-lg-0">
+                <input
+                  className="form-control "
+                  placeholder="Search beers by name"
+                  value={this.state.name}
+                  onChange={this.handleNameInput}
+                />
+              </form>
+              <form className="beers-form form-inline my-2 my-lg-0">
+                <input
+                  className="form-control "
+                  placeholder="Search beers by type"
+                  value={this.state.type}
+                  onChange={this.handleTypeInput}
+                />
+              </form>
               <button
-                onClick={this.handleClick}
+                onClick={this.getAllBeersName || this.getAllBeersType}
                 className="btn btn-dark my-2 my-sm-0"
                 type="submit"
               >
                 Search
               </button>
-            </form>
+            </div>
 
-            <div className="beers-filters">
-              <div className="beers-filter form-group form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="sortByName"
-                  value={this.state.sortByName}
-                  onClick={this.sortByName}
-                />
-                <label className="form-check-label" htmlFor="exampleCheck1">
-                  Sort by name
-                </label>
-              </div>
-              <div className="beers-filter form-group form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="sortCountry"
-                  value={this.state.sortCountry}
-                  onClick={this.sortCountry}
-                />
-                <label className="form-check-label" htmlFor="exampleCheck1">
-                  Sort by Country
-                </label>
-              </div>
+            <div className="select">
+              <select
+                aria-label="country-code"
+                name="selectedCode"
+                value={this.state.select.selectedCode.toString()}
+                onChange={this.handleCountryChange}
+                onClick={this.getCountryCodes}
+              >
+                <option value="" defaultValue>
+                  Choose a country
+                </option>
+                {this.state.countryCode.map((code) => (
+                  <option name="selectedCode" key={code} value={code}>
+                    {code}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="container">
-              {this.state.beers ? (
+              {this.state.beersByType ? (
                 <div className="beers-container container">
-                  {this.state.beers.map((beer) => (
+                  {this.state.beersByType.map((type) => (
+                    <div key={type.id} className="beers-link-item">
+                      {type.name
+                        .toLowerCase()
+                        .includes(this.state.name.toLowerCase()) ? (
+                        <div>
+                          <Link
+                            to={`/beers/${type.id}`}
+                            className="beers-link-item"
+                          >
+                            <h5 className="beers-name">{type.name}</h5>
+                          </Link>
+                        </div>
+                      ) : (
+                        <p className="beers-not-found">
+                          That beer does not exists
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <h4 className="beers-error">
+                  Whoops the fridge is empty, try another name
+                </h4>
+              )}
+            </div>
+
+            <div className="container">
+              {this.state.beersByName ? (
+                <div className="beers-container container">
+                  {this.state.beersByName.map((beer) => (
                     <div key={beer.id} className="beers-link-item">
                       {beer.name
                         .toLowerCase()
-                        .includes(this.state.query.toLowerCase()) ? (
+                        .includes(this.state.name.toLowerCase()) ? (
                         <div>
                           <Link
-                            to={`/beers/${beer.id}`}
+                            to={`/beer/${beer.id}`}
                             className="beers-link-item"
                           >
                             <h5 className="beers-name">{beer.name}</h5>
+                          </Link>
+                        </div>
+                      ) : (
+                        <p className="beers-not-found">
+                          That beer does not exists
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <h4 className="beers-error">
+                  Whoops the fridge is empty, try another name
+                </h4>
+              )}
+            </div>
+
+            <div className="container">
+              {this.state.beersByCountry ? (
+                <div className="beers-container container">
+                  {this.state.beersByCountry.map((country) => (
+                    <div key={country.id} className="beers-link-item">
+                      {country.name
+                        .toLowerCase()
+                        .includes(this.state.name.toLowerCase()) ? (
+                        <div>
+                          <Link
+                            to={`/beers/${country.id}`}
+                            className="beers-link-item"
+                          >
+                            <h5 className="beers-name">{country.name}</h5>
                           </Link>
                         </div>
                       ) : (
