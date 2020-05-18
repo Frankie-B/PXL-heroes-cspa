@@ -53,19 +53,19 @@ class Beer extends Component {
             <div className="single-beer-details">
               <h1 className="single-beer-name">{beer.name}</h1>
               {beer.style ? (
-                <div>
-                  <p>
+                <div className="single-beer-style">
+                  <p className="single-beer-style-text">
                     <b>Style: </b>
                     {beer.style.name}
                   </p>
-                  <p>
+                  <p classNamë="single-beer-brewery">
                     <b>Brewed by:</b>&nbsp;
                     <Link to={`/breweries/brewery/${beer.breweries[0].id}`}>
                       {beer.breweries[0].name}
-                    </Link>{' '}
+                    </Link>
                     in {beer.breweries[0].locations[0].country.displayName}
                   </p>
-                  <div className="abv-ibu">
+                  <div className="single-beer-abv-ibu">
                     <p>
                       <b>ABV:</b> {beer.abv}%
                     </p>
@@ -75,9 +75,9 @@ class Beer extends Component {
                   </div>
                 </div>
               ) : (
-                <h2>Loading...</h2>
+                <h2 className="single-beer-loading">Loading...</h2>
               )}
-              <div className="beer-img">
+              <div className="single-beer-img">
                 {beer.labels ? (
                   <img src={beer.labels.medium} alt="beer-label" />
                 ) : (
@@ -85,7 +85,7 @@ class Beer extends Component {
                 )}
               </div>
             </div>
-            <div className="beer-description">
+            <div className="single-beer-description">
               {beer.style ? <p>{beer.style.description}</p> : <p></p>}
             </div>
           </div>
