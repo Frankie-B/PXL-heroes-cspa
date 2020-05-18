@@ -35,7 +35,7 @@ class Beer extends Component {
     })
       .then((res) => {
         this.setState({
-          beer: res.data,
+          beer: res.data.beer,
         });
         console.log(this.state.beer);
       })

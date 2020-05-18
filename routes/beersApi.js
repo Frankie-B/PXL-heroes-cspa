@@ -52,7 +52,7 @@ router.get('/beer/:id', (req, res) => {
   )
     .then((response) => {
       console.log('api response', response.data);
-      res.json({ beer: response.data }).status(200);
+      res.json({ beer: response.data.data }).status(200);
     })
     .catch((err) => {
       console.log(`Whoops seems that the keg is dry!: ${err}`);
