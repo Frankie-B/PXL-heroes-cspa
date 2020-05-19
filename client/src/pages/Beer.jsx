@@ -16,22 +16,16 @@ class Beer extends Component {
     this.state = {
       beer: [],
     };
-    this.getSingleBeer = this.getSingleBeer.bind(this);
+    this.getBeerDetail = this.getBeerDetail.bind(this);
   }
 
   componentDidMount() {
-    this.getSingleBeer();
+    this.getBeerDetail();
   }
 
-  getSingleBeer() {
-    let url = '/beer';
-    if (this.state.query) {
-      url += '?';
-      url += this.state.beer;
-    }
-
+  getBeerDetail() {
     axios({
-      url: `${url}/${this.props.match.params.id}/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb`,
+      url: `/beer/${this.props.match.params.id}/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb`,
     })
       .then((res) => {
         this.setState({
@@ -50,20 +44,20 @@ class Beer extends Component {
       return (
         <Default>
           <div className="Single-beer">
-            <div className="single-beer-details">
+            <div className="single-beer-detail">
               <h1 className="single-beer-name">{beer.name}</h1>
               {beer.style ? (
-                <div className="single-beer-style">
+                <div className="single-beer-info">
                   <p className="single-beer-style-text">
                     <b>Style: </b>
                     {beer.style.name}
                   </p>
                   <p classNamë="single-beer-brewery">
                     <b>Brewed by:</b>&nbsp;
-                    <Link to={`/breweries/brewery/${beer.breweries[0].id}`}>
-                      {beer.breweries[0].name}
+                    <Link to={`/breweries/${beer.breweries[0].id}`}>
+                      {beer.breweries[0].name} <br />
                     </Link>
-                    in {beer.breweries[0].locations[0].country.displayName}
+                    {beer.breweries[0].locations[0].country.displayName}
                   </p>
                   <div className="single-beer-abv-ibu">
                     <p>

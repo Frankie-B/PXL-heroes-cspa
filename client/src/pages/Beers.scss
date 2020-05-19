@@ -15,8 +15,18 @@
       width: 80vw;
     }
 
-    button {
-      width: 100%;
+    .beers-btns {
+      display: flex;
+      width: 80vw;
+      .beers-btn {
+        font-size: small;
+        margin: 0 10px;
+        width: 50%;
+      }
+    }
+
+    .beers-select {
+      margin-top: 1rem;
     }
   }
 
@@ -71,18 +81,23 @@
       }
     }
     .beers-search {
+      display: flex;
       width: 80vw;
       .beers-form.form-inline {
-        width: 40vw;
+        display: flex;
+        justify-content: center;
+        // width: 50vw;
         input {
           margin: 0.5rem 0;
-          width: 100%;
+          width: 50%;
         }
       }
-
-      button {
-        margin-top: 1rem;
-        width: 100%;
+      .beers-btns {
+        display: flex;
+        justify-content: center;
+        .beers-btn {
+          width: 24%;
+        }
       }
     }
     .beers-filter {

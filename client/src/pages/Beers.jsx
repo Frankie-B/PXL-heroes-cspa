@@ -25,7 +25,6 @@ class Beers extends Component {
       beersByType: [],
       beersByCountry: [],
       countryCode: [],
-      page: 1,
     };
     this.getBeersByName = this.getBeersByName.bind(this);
     this.getAllBeersName = this.getAllBeersName.bind(this);
@@ -81,13 +80,8 @@ class Beers extends Component {
   }
 
   getBeersByName() {
-    let url = '/beers';
-    if (this.state.name) {
-      url += '?';
-      url += this.state.name;
-    }
     axios({
-      url: `${url}/?key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.name}&withBreweries=Y`,
+      url: `/beers/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.name}`,
     })
       .then((response) => {
         console.log('Beers were successfully retrieved: ', response);
@@ -100,8 +94,7 @@ class Beers extends Component {
 
   getBeersByType() {
     axios({
-      method: 'GET',
-      url: `/beers/search/?key=659d5c6b8f3d2447f090119e48202fdb&p=${this.state.page}&type=beer&q=${this.state.type}`,
+      url: `/beers/search/?key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.type}`,
     })
       .then((res) => {
         this.setState({
@@ -119,7 +112,7 @@ class Beers extends Component {
     })
       .then((res) => {
         let code = [
-          ...new Set(res.data.data.map((item) => item.countryIsoCode)),
+          ...new Set(res.data.beers.map((item) => item.countryIsoCode)),
         ];
         this.setState({
           countryCode: code,
@@ -133,7 +126,7 @@ class Beers extends Component {
 
   getBeersByCountry() {
     axios({
-      url: `/beers/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb${this.state.page}`,
+      url: `/beers/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb`,
     })
       .then((res) => {
         this.setState({
@@ -159,6 +152,7 @@ class Beers extends Component {
               <form className="beers-form form-inline my-2 my-lg-0">
                 <input
                   type="text"
+                  name="name"
                   className="form-control "
                   placeholder="Search beers by name"
                   value={this.state.name}
@@ -168,29 +162,30 @@ class Beers extends Component {
               <form className="beers-form form-inline my-2 my-lg-0">
                 <input
                   type="text"
+                  name="type"
                   className="form-control "
                   placeholder="Search beers by type"
                   value={this.state.type}
                   onChange={this.handleTypeInput}
                 />
               </form>
-              <button
-                onClick={this.getAllBeersName || this.getAllBeersType}
-                className="btn btn-dark my-2 my-sm-0"
-                type="submit"
-              >
-                Search
-              </button>
-              {/* <button
-                onClick={this.getAllBeersType}
-                className="btn btn-dark my-2 my-sm-0"
-                type="submit"
-              >
-                Search
-              </button> */}
+              <div className="beers-btns">
+                <button
+                  onClick={this.getAllBeersName}
+                  className="beers-btn btn btn-dark my-2 my-sm-0"
+                >
+                  Search by name
+                </button>
+                <button
+                  onClick={this.getAllBeersType}
+                  className="beers-btn btn btn-dark my-2 my-sm-0"
+                >
+                  Search by type
+                </button>
+              </div>
             </div>
 
-            <div className="select">
+            <div className="beers-select">
               <select
                 aria-label="country-code"
                 name="selectedCode"
