@@ -128,11 +128,11 @@ class Beers extends Component {
       url: `/beers/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb`,
     })
       .then((res) => {
+        console.log(res);
         this.setState({
-          beersByCountry: res.data.data,
+          beersByCountry: res.data.beers,
         });
         //this.removeDuplicates();
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
