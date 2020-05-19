@@ -82,7 +82,7 @@ class Beers extends Component {
       url: `/beers/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.name}`,
     })
       .then((response) => {
-        console.log('Beers were successfully retrieved: ', response);
+        console.log('Beers were successfully retrieved: ', response.data.beers);
         this.setState({ beersByName: response.data.beers });
       })
       .catch((error) => {
@@ -95,6 +95,7 @@ class Beers extends Component {
       url: `/beers/?key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.type}`,
     })
       .then((res) => {
+        console.log(res.data.beers);
         this.setState({
           beersByType: res.data.beers,
         });
@@ -131,6 +132,7 @@ class Beers extends Component {
           beersByCountry: res.data.data,
         });
         //this.removeDuplicates();
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
