@@ -4,8 +4,6 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Beers.scss';
 
-// import Suggestions from '../components/Search/Suggestions/Suggestions';
-
 const axios = Axios.create({
   baseURL: 'http://localhost:5000/',
   withCredentials: true,
@@ -33,8 +31,8 @@ class Beers extends Component {
     this.getAllCountries = this.getAllCountries.bind(this);
     this.handleTypeInput = this.handleTypeInput.bind(this);
     this.handleNameInput = this.handleNameInput.bind(this);
-    this.getBeersByCountry = this.getBeersByCountry.bind(this);
     this.getCountryCodes = this.getCountryCodes.bind(this);
+    this.getBeersByCountry = this.getBeersByCountry.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
   }
 
@@ -130,9 +128,9 @@ class Beers extends Component {
     })
       .then((res) => {
         this.setState({
-          beersByCountry: res.data.beers,
+          beersByCountry: res.data.data,
         });
-        this.removeDuplicates();
+        //this.removeDuplicates();
       })
       .catch((err) => {
         console.log(err);
@@ -193,9 +191,7 @@ class Beers extends Component {
                 onChange={this.handleCountryChange}
                 onClick={this.getCountryCodes}
               >
-                <option value="" defaultValue>
-                  Choose a country
-                </option>
+                <option defaultValue>Choose a country</option>
                 {this.state.countryCode.map((code) => (
                   <option name="selectedCode" key={code} value={code}>
                     {code}
