@@ -37,13 +37,14 @@ class Breweries extends Component {
       return;
     };
   }
+
   getCountryCodeList() {
     axios({
       url: '/breweries/locations/?key=659d5c6b8f3d2447f090119e48202fdb',
     })
       .then((res) => {
         let code = [
-          ...new Set(res.data.data.map((item) => item.countryIsoCode)),
+          ...new Set(res.data.beers.map((item) => item.countryIsoCode)),
         ];
         this.setState({
           countryCode: code,
@@ -51,30 +52,27 @@ class Breweries extends Component {
         console.log(this.state.countryCode.toString());
       })
       .catch((err) => {
-        console.log('Error');
+        console.log(err);
       });
   }
+
   getBreweriesList() {
-    let url = '/breweries/locations/';
-    if (this.state.name) {
-      url += '?countryIsoCode=';
-      url += this.state.select.selectedCode;
-    }
     axios({
-      url: `&order=breweryName&key=659d5c6b8f3d2447f090119e48202fdb`,
+      url: `/breweries/locations/?countryIsoCode=${this.state.select.selectedCode}&order=breweryName&key=659d5c6b8f3d2447f090119e48202fd`,
     })
       .then((res) => {
         this.setState({
-          breweries: res.data.data,
+          breweries: res.data.beers.data,
         });
         this.removeDuplicates();
         console.log(this.state.breweries);
       })
 
       .catch((err) => {
-        console.log('Error');
+        console.log(err);
       });
   }
+
   removeDuplicates() {
     if (this.state.breweries) {
       var unique = _.uniqBy(this.state.breweries, 'breweryId');

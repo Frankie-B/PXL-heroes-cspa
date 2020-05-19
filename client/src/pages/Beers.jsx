@@ -27,12 +27,12 @@ class Beers extends Component {
       countryCode: [],
     };
     this.getBeersByName = this.getBeersByName.bind(this);
+    this.getBeersByType = this.getBeersByType.bind(this);
     this.getAllBeersName = this.getAllBeersName.bind(this);
     this.getAllBeersType = this.getAllBeersType.bind(this);
     this.getAllCountries = this.getAllCountries.bind(this);
     this.handleTypeInput = this.handleTypeInput.bind(this);
     this.handleNameInput = this.handleNameInput.bind(this);
-    this.getBeersByType = this.getBeersByType.bind(this);
     this.getBeersByCountry = this.getBeersByCountry.bind(this);
     this.getCountryCodes = this.getCountryCodes.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
@@ -94,7 +94,7 @@ class Beers extends Component {
 
   getBeersByType() {
     axios({
-      url: `/beers/search/?key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.type}`,
+      url: `/beers/?key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.type}`,
     })
       .then((res) => {
         this.setState({
@@ -120,7 +120,7 @@ class Beers extends Component {
         console.log(this.state.countryCode.toString());
       })
       .catch((err) => {
-        console.log('No more beers here');
+        console.log(err);
       });
   }
 
