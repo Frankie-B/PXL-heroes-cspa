@@ -120,7 +120,6 @@ class Beers extends Component {
         this.setState({
           beersByCountry: res.data.beers,
         });
-        //this.removeDuplicates();
       })
       .catch((err) => {
         console.log(err);

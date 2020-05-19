@@ -17,20 +17,6 @@ router.get('/beers', (req, res) => {
     });
 });
 
-// router.get('/beers/search', (req, res) => {
-//   Axios.get(
-//     `https://sandbox-api.brewerydb.com/v2/search?key=${process.env.API_KEY}`
-//   )
-//     .then((response) => {
-//       console.log('api response', response.data.data);
-//       res.json({ beers: response.data.data }).status(200);
-//     })
-//     .catch((err) => {
-//       console.log(`Whoops seems that the keg is dry!: ${err}`);
-//       res.json({ err }).status(500);
-//     });
-// });
-
 router.get('/beers/locations', (req, res) => {
   Axios.get(
     `https://sandbox-api.brewerydb.com/v2/locations?key=${process.env.API_KEY}`
@@ -92,5 +78,3 @@ router.get('/breweries/:id', (req, res) => {
 });
 
 module.exports = router;
-
-//brewery/:breweryId/locations
