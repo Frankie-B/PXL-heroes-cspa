@@ -26,9 +26,6 @@ class Beers extends Component {
     };
     this.getBeersByName = this.getBeersByName.bind(this);
     this.getBeersByType = this.getBeersByType.bind(this);
-    // this.getAllBeersName = this.getAllBeersName.bind(this);
-    // this.getAllBeersType = this.getAllBeersType.bind(this);
-    // this.getAllCountries = this.getAllCountries.bind(this);
     this.handleTypeInput = this.handleTypeInput.bind(this);
     this.handleNameInput = this.handleNameInput.bind(this);
     this.getCountryCodes = this.getCountryCodes.bind(this);
