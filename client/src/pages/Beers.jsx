@@ -26,9 +26,9 @@ class Beers extends Component {
     };
     this.getBeersByName = this.getBeersByName.bind(this);
     this.getBeersByType = this.getBeersByType.bind(this);
-    this.getAllBeersName = this.getAllBeersName.bind(this);
-    this.getAllBeersType = this.getAllBeersType.bind(this);
-    this.getAllCountries = this.getAllCountries.bind(this);
+    // this.getAllBeersName = this.getAllBeersName.bind(this);
+    // this.getAllBeersType = this.getAllBeersType.bind(this);
+    // this.getAllCountries = this.getAllCountries.bind(this);
     this.handleTypeInput = this.handleTypeInput.bind(this);
     this.handleNameInput = this.handleNameInput.bind(this);
     this.getCountryCodes = this.getCountryCodes.bind(this);
@@ -58,22 +58,10 @@ class Beers extends Component {
     e.preventDefault();
     let updatedCountryCode = this.state.select;
     updatedCountryCode[e.target.name] = e.target.value;
-    this.getAllCountries();
+    this.getBeersByCountry();
     this.setState({
       select: updatedCountryCode,
     });
-    this.getAllCountries();
-  }
-
-  getAllBeersName() {
-    this.getBeersByName();
-  }
-
-  getAllBeersType() {
-    this.getBeersByType();
-  }
-
-  getAllCountries() {
     this.getBeersByCountry();
   }
 
@@ -171,13 +159,13 @@ class Beers extends Component {
               </form>
               <div className="beers-btns">
                 <button
-                  onClick={this.getAllBeersName}
+                  onClick={this.getBeersByName}
                   className="beers-btn btn btn-dark my-2 my-sm-0"
                 >
                   Search by name
                 </button>
                 <button
-                  onClick={this.getAllBeersType}
+                  onClick={this.getBeersByType}
                   className="beers-btn btn btn-dark my-2 my-sm-0"
                 >
                   Search by type
