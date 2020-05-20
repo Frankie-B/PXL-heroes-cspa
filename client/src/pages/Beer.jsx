@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './Beer.scss';
 
 const axios = Axios.create({
-  baseURL: 'http://localhost:5000/',
+  baseURL: 'http://localhost:5000',
   withCredentials: true,
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
@@ -24,17 +24,16 @@ class Beer extends Component {
   }
 
   getBeerDetail() {
+    const beerDetail = this.props.match.params.id;
     axios({
-      url: `/beer/${this.props.match.params.id}/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb`,
+      url: `/beers/${beerDetail}`,
     })
       .then((res) => {
-        this.setState({
-          beer: res.data.beer,
-        });
-        console.log(this.state.beer);
+        console.log('Here is the information about that beer:', res);
+        this.setState({ beer: res.data.beer });
       })
       .catch((err) => {
-        console.log(`Aww snap! something went wrong: ${err}`);
+        console.log(err);
       });
   }
 
@@ -52,12 +51,12 @@ class Beer extends Component {
                     <b>Style: </b>
                     {beer.style.name}
                   </p>
-                  <p classNamë="single-beer-brewery">
+                  <p className="single-beer-brewery">
                     <b>Brewed by:</b>&nbsp;
-                    <Link to={`/breweries/${beer.breweries[0].id}`}>
-                      {beer.breweries[0].name} <br />
+                    <Link to={`/breweries/${beer}`}>
+                      {beer.name} <br />
                     </Link>
-                    {beer.breweries[0].locations[0].country.displayName}
+                    {beer.nameDisplay}
                   </p>
                   <div className="single-beer-abv-ibu">
                     <p>
