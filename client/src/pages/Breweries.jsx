@@ -10,60 +10,15 @@ const axios = Axios.create({
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
 
-const qryStr = {
-  isOrganic: false,
-  trains: true,
-  // plains: 'oowwyeahh',
-};
-
-const qryStrParam = Object.entries(qryStr);
-console.log(qryStrParam);
-
-const qry = qryStrParam.reduce((param, qry) => {
-  const key = qry[0];
-  const value = qry[1];
-
-  if (!value) return param;
-
-  if (param) param += `&`;
-  param += `${key}=`;
-
-  switch (typeof value) {
-    case 'boolean':
-      if (value) {
-        param += 'Y';
-      } else {
-        param += 'N';
-      }
-      break;
-    case 'string':
-      param += value;
-  }
-  return param;
-}, '');
-
-console.log(qry);
-
 class Breweries extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: {
-        country: '',
-        isOrganic: null,
-      },
       name: '',
       type: '',
-      query: '',
       breweries: [],
       breweriesByType: [],
-
-      // countryCode: '',
-      // countries: [],
-      // shownBreweries: [],
-      // searchType: 'name',
-      // countryCode: [],
-      // isOrganic: [],
+      countryCode: [],
     };
 
     this.handleOnNameChange = this.handleOnNameChange.bind(this);
@@ -76,7 +31,7 @@ class Breweries extends Component {
 
   handleOnNameChange = (e) => {
     this.setState({
-      name: e.target.value,
+      countries: e.target.value,
     });
     this.props.handleSearch(e.target.value);
   };
@@ -86,6 +41,13 @@ class Breweries extends Component {
       type: e.target.value,
     });
     this.props.handleSearch(e.target.value);
+  };
+
+  handleOnChange = (event: any) => {
+    this.setState({
+      name: event.target.value,
+    });
+    this.props.handleSearch(event.target.value);
   };
 
   getAllBreweries() {
@@ -103,6 +65,21 @@ class Breweries extends Component {
         console.log(err);
       });
   }
+
+  getBeersByType() {
+    axios({
+      url: `/breweries&q=${this.state.type}`,
+    })
+      .then((res) => {
+        this.setState({
+          type: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <Default>
@@ -121,12 +98,36 @@ class Breweries extends Component {
               />
               <button
                 onClick={this.getAllBreweries}
-                className="btn btn-lg  btn-outline-light my-2 my-sm-0"
+                className="btn btn-lg btn-block d-lg-none btn-outline-light my-2 my-sm-0"
+                type="submit"
+              >
+                Search
+              </button>
+              <button
+                onClick={this.getAllBreweries}
+                className="btn btn-lg d-none btn-outline-light my-2 my-sm-0"
                 type="submit"
               >
                 Search
               </button>
             </form>
+            <div class="dropdown">
+              <select class="dropdown" aria-labelledby="dropdownMenuButton">
+                <option class="dropdown-item" defaultValue>
+                  Fiter Results
+                </option>
+                {this.state.countryCode.map((item) => (
+                  <option name="selectedCode" key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+                {this.state.breweriesByType.map((type) => (
+                  <option name="selectedCode" key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           {this.state.breweries ? (
             <div className="breweries-container container">

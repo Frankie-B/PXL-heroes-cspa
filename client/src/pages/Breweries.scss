@@ -5,9 +5,25 @@
   justify-content: center;
   align-items: center;
   width: 90vw;
+  .Breweries-search {
+    .form-inline {
+      width: 90vw;
+      .btn {
+        // width: 90vw;
+      }
+    }
+  }
 }
 
 @media (min-width: 992px) {
   .Breweries {
+    .form-inline {
+      display: flex;
+      // width: 90vw;
+      button {
+        display: inline;
+        // width: 90vw;
+      }
+    }
   }
 }
