@@ -3,40 +3,6 @@
   justify-content: center;
   flex-direction: column;
   min-height: 100%;
-
-  .beers-search {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3px 15px;
-    .beers-form.form-inline {
-      display: flex;
-      flex-direction: column;
-      width: 80vw;
-    }
-
-    .beers-btns {
-      display: flex;
-      width: 80vw;
-      .beers-btn {
-        font-size: small;
-        margin: 0 10px;
-        width: 50%;
-      }
-    }
-
-    .beers-select {
-      margin-top: 1rem;
-    }
-  }
-
-  .beers-filter {
-    display: flex;
-    .form-check-label {
-      font-size: 1rem;
-    }
-  }
-
   .beers-container {
     display: flex;
     flex-flow: wrap;
@@ -50,7 +16,6 @@
         margin-bottom: 15px;
       }
     }
-
     .beers-error {
       font-size: 1rem;
       text-align: center;
@@ -79,29 +44,6 @@
           width: 70%;
         }
       }
-    }
-    .beers-search {
-      display: flex;
-      width: 80vw;
-      .beers-form.form-inline {
-        display: flex;
-        justify-content: center;
-
-        input {
-          margin: 0.5rem 0;
-          width: 50%;
-        }
-      }
-      .beers-btns {
-        display: flex;
-        justify-content: center;
-        .beers-btn {
-          width: 24%;
-        }
-      }
-    }
-    .beers-filter {
-      margin: 5px 0;
     }
   }
 }
