@@ -12,9 +12,22 @@
         font-size: 1rem;
       }
       .single-beer-brewery {
+        color: #ffffff;
         font-size: 1rem;
-        w a {
+        .single-link-item {
           font-size: small;
+          font-weight: bold;
+          text-decoration: none;
+        }
+
+        .single-link-item:hover {
+          color: #ffffff;
+        }
+      }
+      .single-beer-abv-ibu {
+        display: flex;
+        .single-beer-ibu {
+          margin-left: 1rem;
         }
       }
     }

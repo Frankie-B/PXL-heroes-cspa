@@ -1,110 +1,11 @@
 .Breweries {
   color: #ffffff;
-}
-.Beers {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  min-height: 100%;
-
-  .beers-search {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3px 15px;
-    .beers-form.form-inline {
-      display: flex;
-      flex-direction: column;
-      width: 80vw;
-    }
-
-    .beers-btns {
-      display: flex;
-      width: 80vw;
-      .beers-btn {
-        font-size: small;
-        margin: 0 10px;
-        width: 50%;
-      }
-    }
-
-    .beers-select {
-      margin-top: 1rem;
-    }
-  }
-
-  .beers-filter {
-    display: flex;
-    .form-check-label {
-      font-size: 1rem;
-    }
-  }
-
-  .beers-container {
-    display: flex;
-    flex-flow: wrap;
-    margin: 0 auto;
-    padding: 3% 5%;
-    text-align: left;
-    .beers-link-item {
-      color: #ffffff;
-      .beers-name {
-        font-size: 0.75rem;
-        margin-bottom: 15px;
-      }
-    }
-
-    .beers-error {
-      font-size: 1rem;
-      text-align: center;
-    }
-  }
-  .beers-not-found {
-    display: none;
-  }
 }
 
 @media (min-width: 992px) {
-  .Beers {
-    .beers-container {
-      display: flex;
-      flex-flow: wrap;
-      justify-content: center;
-      padding: 2% 1%;
-      .beers-link-item {
-        font-size: 0.5rem;
-        height: 40%;
-        margin: 0 auto;
-        text-align: left;
-        width: 20%;
-        .beers-name {
-          font-size: 0.75rem;
-          width: 70%;
-        }
-      }
-    }
-    .beers-search {
-      display: flex;
-      width: 80vw;
-      .beers-form.form-inline {
-        display: flex;
-        justify-content: center;
-
-        input {
-          margin: 0.5rem 0;
-          width: 50%;
-        }
-      }
-      .beers-btns {
-        display: flex;
-        justify-content: center;
-        .beers-btn {
-          width: 24%;
-        }
-      }
-    }
-    .beers-filter {
-      margin: 5px 0;
-    }
+  .Breweries {
+    width: 80vw;
   }
 }

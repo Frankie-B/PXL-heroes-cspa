@@ -20,16 +20,16 @@ class Navbar extends Component {
 
           <div className="collapse navbar-collapse" id="navbar-btn-container">
             <Link
-              to={'/beers'}
-              className="btn btn-outline-light btn-left my-2 my-sm-0"
-            >
-              Beers
-            </Link>
-            <Link
               to={'/breweries'}
               className="btn btn-outline-light btn-right my-2 my-sm-0"
             >
               Breweries
+            </Link>
+            <Link
+              to={'/beers'}
+              className="btn btn-outline-light btn-left my-2 my-sm-0"
+            >
+              Beers
             </Link>
           </div>
         </nav>

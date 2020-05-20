@@ -44,6 +44,13 @@ class Beer extends Component {
         <Default>
           <div className="Single-beer">
             <div className="single-beer-detail">
+              <div className="single-beer-img">
+                {beer.labels ? (
+                  <img src={beer.labels.icon} alt="beer-label" />
+                ) : (
+                  <p></p>
+                )}
+              </div>
               <h1 className="single-beer-name">{beer.name}</h1>
               {beer.style ? (
                 <div className="single-beer-info">
@@ -53,16 +60,19 @@ class Beer extends Component {
                   </p>
                   <p className="single-beer-brewery">
                     <b>Brewed by:</b>&nbsp;
-                    <Link to={`/breweries/${beer}`}>
+                    <Link
+                      className="single-link-item"
+                      to={`/breweries/${beer}`}
+                    >
                       {beer.name} <br />
                     </Link>
                     {beer.nameDisplay}
                   </p>
                   <div className="single-beer-abv-ibu">
-                    <p>
+                    <p className="single-beer-abv">
                       <b>ABV:</b> {beer.abv}%
                     </p>
-                    <p>
+                    <p className="single-beer-ibu">
                       <b>IBU:</b> {beer.style.ibuMin} - {beer.style.ibuMax}
                     </p>
                   </div>
@@ -70,13 +80,6 @@ class Beer extends Component {
               ) : (
                 <h2 className="single-beer-loading">Loading...</h2>
               )}
-              <div className="single-beer-img">
-                {beer.labels ? (
-                  <img src={beer.labels.medium} alt="beer-label" />
-                ) : (
-                  <p></p>
-                )}
-              </div>
             </div>
             <div className="single-beer-description">
               {beer.style ? <p>{beer.style.description}</p> : <p></p>}
