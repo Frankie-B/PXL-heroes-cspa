@@ -48,10 +48,16 @@ class Breweries extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      query: {
+        country: '',
+        isOrganic: null,
+      },
       name: '',
       type: '',
+      query: '',
       breweries: [],
       breweriesByType: [],
+
       // countryCode: '',
       // countries: [],
       // shownBreweries: [],
@@ -149,7 +155,7 @@ class Breweries extends Component {
             </h4>
           )}
 
-          {this.state.breweries ? (
+          {/* {this.state.breweries ? (
             <div className="breweries-container container">
               {this.state.breweries.map((brewery) => (
                 <div key={brewery.id} className="breweries-link-item">
@@ -174,7 +180,7 @@ class Breweries extends Component {
             <h4 className="breweries-error">
               Woah! Looks like you partied a little too hard!
             </h4>
-          )}
+          )} */}
         </div>
       </Default>
     );

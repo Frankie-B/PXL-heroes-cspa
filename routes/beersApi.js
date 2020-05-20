@@ -33,9 +33,9 @@ router.get('/breweries', (req, res) => {
   Axios.get(
     `${baseUrl}/breweries?withLocations=Y&key=${process.env.API_KEY}&withLocations=Y`
   )
-    .then((res) => {
-      console.log(res.data.data);
-      res.json({ breweries: res.data.data }).status(200);
+    .then((response) => {
+      console.log(response.data.data);
+      res.json({ breweries: response.data.data }).status(200);
     })
     .catch((err) => {
       console.log(`Aww snap! That location does not exist: ${err}`);
