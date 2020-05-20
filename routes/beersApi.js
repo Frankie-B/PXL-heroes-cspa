@@ -2,27 +2,12 @@ let express = require('express');
 let router = express.Router();
 let Axios = require('axios');
 
-router.get('/beers', (req, res) => {
-  const selectedBeer = req.params.id;
-  Axios.get(
-    `https://sandbox-api.brewerydb.com/v2/beers?withBreweries=Y&${selectedBeer}&key=${process.env.API_KEY}`
-  )
-    .then((response) => {
-      console.log('api response', response.data.data);
-      res.json({ beers: response.data.data }).status(200);
-    })
-    .catch((err) => {
-      console.log(`Whoops seems that the keg is dry!: ${err}`);
-      res.json({ err }).status(500);
-    });
-});
+const baseUrl = 'https://sandbox-api.brewerydb.com/v2';
 
-router.get('/beers/locations', (req, res) => {
-  Axios.get(
-    `https://sandbox-api.brewerydb.com/v2/locations?key=${process.env.API_KEY}`
-  )
+router.get('/beers', (req, res) => {
+  Axios.get(`${baseUrl}/beers?key${process.env.API_KEY}`)
     .then((response) => {
-      console.log('api response', response.data.data);
+      console.log(response.data.data);
       res.json({ beers: response.data.data }).status(200);
     })
     .catch((err) => {
@@ -32,13 +17,10 @@ router.get('/beers/locations', (req, res) => {
 });
 
 router.get('/beer/:id', (req, res) => {
-  console.log(req.params);
-  const selectedBeer = req.params.id;
-  Axios.get(
-    `https://sandbox-api.brewerydb.com/v2/beer/${selectedBeer}/?withBreweries=Y&key=${process.env.API_KEY}`
-  )
+  const beerDetail = req.params.id;
+  Axios.get(`${baseUrl}/beer/${beerDetail}/?key=${process.env.API_KEY}`)
     .then((response) => {
-      console.log('api response', response.data);
+      console.log(response.data.data);
       res.json({ beer: response.data.data }).status(200);
     })
     .catch((err) => {
@@ -49,10 +31,10 @@ router.get('/beer/:id', (req, res) => {
 
 router.get('/breweries', (req, res) => {
   Axios.get(
-    `https://sandbox-api.brewerydb.com/v2/breweries?withLocations=Y&key=${process.env.API_KEY}&withLocations=Y`
+    `${baseUrl}/breweries?withLocations=Y&key=${process.env.API_KEY}&withLocations=Y`
   )
     .then((response) => {
-      console.log('api response', response.data.data);
+      console.log(response.data.data);
       res.json({ beers: response.data.data }).status(200);
     })
     .catch((err) => {
@@ -61,11 +43,11 @@ router.get('/breweries', (req, res) => {
     });
 });
 
-router.get('/breweries/:id', (req, res) => {
+router.get('/breweries/:id/beers', (req, res) => {
   console.log('req.params', req);
-  const selectedBrewery = req.params.id;
+  const breweryDetail = req.params.id;
   Axios.get(
-    `https://sandbox-api.brewerydb.com/v2/brewery/${selectedBrewery}/beers?key=${process.env.API_KEY}`
+    `${baseUrl}/brewery/${breweryDetail}/beers?key=${process.env.API_KEY}`
   )
     .then((response) => {
       console.log('api response', response.data.data);

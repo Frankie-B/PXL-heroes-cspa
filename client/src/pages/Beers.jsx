@@ -64,7 +64,7 @@ class Beers extends Component {
 
   getBeersByName() {
     axios({
-      url: `/beers/?withBreweries=Y&key=659d5c6b8f3d2447f090119e48202fdb&type=beer&q=${this.state.name}`,
+      url: `/beers?key=659d5c6b8f3d2447f090119e48202fdb&q=${this.state.name}`,
     })
       .then((response) => {
         console.log('Beers were successfully retrieved: ', response.data.beers);
