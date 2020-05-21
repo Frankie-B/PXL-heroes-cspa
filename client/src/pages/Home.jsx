@@ -14,6 +14,16 @@ class Home extends Component {
           </div>
 
           <div className="home-spacer"></div>
+          <div className="home-welcome-text">
+            <h3 className="home-subheading">Welcome to our page</h3>
+            <p className="home-text">
+              Feeling thirst? Why not check out our breweries and see what they
+              have to offer?
+            </p>
+            <Link to={'/breweries'} className="home-link">
+              Checkout Breweries
+            </Link>
+          </div>
 
           <div className="home-btn-container">
             <Link
