@@ -112,7 +112,10 @@ class Breweries extends Component {
               </button>
             </form>
             <div class="dropdown">
-              <select class="dropdown" aria-labelledby="dropdownMenuButton">
+              <select
+                className="btn btn-outline-secondary"
+                aria-labelledby="dropdownMenuButton"
+              >
                 <option class="dropdown-item" defaultValue>
                   Fiter Results
                 </option>

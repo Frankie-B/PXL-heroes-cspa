@@ -16,14 +16,14 @@ class Home extends Component {
           <div className="home-spacer"></div>
 
           <div className="home-btn-container">
-            <Link to={'/beers'} className="btn btn-outline-light my-2 my-sm-0">
-              Beers
-            </Link>
             <Link
               to={'/breweries'}
               className="btn btn-outline-light my-2 my-sm-0"
             >
               Breweries
+            </Link>
+            <Link to={'/beers'} className="btn btn-outline-light my-2 my-sm-0">
+              Beers
             </Link>
           </div>
         </div>
