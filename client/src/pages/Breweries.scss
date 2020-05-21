@@ -8,10 +8,10 @@
   .Breweries-search {
     .form-inline {
       width: 90vw;
-      .btn {
-        // width: 90vw;
-      }
     }
+  }
+  button.btn-desktop {
+    display: none;
   }
 }
 

@@ -105,7 +105,7 @@ class Breweries extends Component {
               </button>
               <button
                 onClick={this.getAllBreweries}
-                className="btn btn-lg d-none btn-outline-light my-2 my-sm-0"
+                className="btn-desktop btn btn-lg btn-outline-light my-2 my-sm-0"
                 type="submit"
               >
                 Search
