@@ -2,53 +2,69 @@ import React, { Component } from 'react';
 import Default from '../Layouts/Default';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import './Breweries.scss';
 
 const axios = Axios.create({
   baseURL: 'http://localhost:5000',
   withCredentials: true,
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  headers: { 'content-type': 'application/x-www-form-urlencisoCded' },
 });
 
 class Breweries extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      type: '',
+      selectCountry: {
+        countryIsoCode: '',
+      },
+      selectType: {
+        locationTypeDisplay: '',
+      },
       breweries: [],
-      breweriesByType: [],
-      countryCode: [],
+      locationType: [],
+      countryCodes: [],
     };
 
-    this.handleOnNameChange = this.handleOnNameChange.bind(this);
     this.getAllBreweries = this.getAllBreweries.bind(this);
+    this.getCountryAndType = this.getCountryAndType.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
   }
 
   componentDidMount() {
     this.getAllBreweries();
+    this.getCountryAndType();
+    this._isMounted = true;
   }
 
-  handleOnNameChange = (e) => {
-    this.setState({
-      countries: e.target.value,
-    });
-    this.props.handleSearch(e.target.value);
-  };
+  componentWillUnmount() {
+    // fix Warning: Can't perform a React state update on an unmounted component / stack overflow
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
 
-  handleOnTypeChange = (e) => {
+  handleCountryChange(e) {
+    e.preventDefault();
+    let updatedCode = this.state.selectCountry;
+    updatedCode[e.target.name] = e.target.value;
     this.setState({
-      type: e.target.value,
+      selectCountry: updatedCode,
     });
-    this.props.handleSearch(e.target.value);
-  };
+    this.getAllBreweries();
+  }
 
-  handleOnChange = (event: any) => {
+  handleTypeChange(e) {
+    e.preventDefault();
+    let locationUpdate = this.state.selectType;
+    locationUpdate[e.target.name] = e.target.value;
     this.setState({
-      name: event.target.value,
+      selectType: locationUpdate,
     });
-    this.props.handleSearch(event.target.value);
-  };
+    this.getAllBreweries();
+  }
 
   getAllBreweries() {
     axios({
@@ -56,7 +72,7 @@ class Breweries extends Component {
     })
       .then((res) => {
         console.log(
-          'Beep bop boop...Triangulation complete:',
+          'Beep Bop Boop...Triangulation complete:',
           res.data.breweries
         );
         this.setState({ breweries: res.data.breweries });
@@ -66,14 +82,27 @@ class Breweries extends Component {
       });
   }
 
-  getBeersByType() {
+  getCountryAndType() {
     axios({
-      url: `/breweries&q=${this.state.type}`,
+      url: '/breweries',
     })
       .then((res) => {
+        let isoCode = [
+          ...new Set(res.data.data.map((item) => item.countryIsoCode)),
+        ];
+        let locationType = [
+          ...new Set(
+            res.data.data.map((location) => location.locationTypeDisplay)
+          ),
+        ];
         this.setState({
-          type: res.data.data,
+          countryCodes: isoCode,
         });
+        this.setState({
+          locationType: locationType,
+        });
+        console.log(this.state.countryCodes.toString());
+        console.log(this.state.locationByType.toString());
       })
       .catch((err) => {
         console.log(err);
@@ -81,6 +110,20 @@ class Breweries extends Component {
   }
 
   render() {
+    let BreweriesCountry;
+    let BreweriesType;
+    if (!this.state.selectCountry.countryIsoCode) {
+      BreweriesCountry = <h2>Breweries from all countries</h2>;
+    } else {
+      BreweriesCountry = (
+        <h2>Breweries from {this.state.selectCountry.countryIsoCode}</h2>
+      );
+    }
+    if (!this.state.selectType.locationTypeDisplay) {
+      BreweriesType = <h2>All brewery types</h2>;
+    } else {
+      BreweriesType = <h2> {this.state.selectType.locationTypeDisplay}s</h2>;
+    }
     return (
       <Default>
         <div className="Breweries">
@@ -94,7 +137,6 @@ class Breweries extends Component {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                onChange={(e) => this.handleOnChange(e)}
               />
               <button
                 onClick={this.getAllBreweries}
@@ -111,22 +153,41 @@ class Breweries extends Component {
                 Search
               </button>
             </form>
-            <div class="dropdown">
+
+            <div className="dropdown">
               <select
+                value={this.state.selectType.locationTypeDisplay.toString()}
                 className="btn btn-outline-secondary"
                 aria-labelledby="dropdownMenuButton"
+                onChange={
+                  ((e) => this.handleCountryChange(e)) ||
+                  ((e) => this.handleTypeChange(e))
+                }
               >
-                <option class="dropdown-item" defaultValue>
-                  Fiter Results
+                <option className="dropdown-item" defaultValue>
+                  Fiter by type
                 </option>
-                {this.state.countryCode.map((item) => (
-                  <option name="selectedCode" key={item} value={item}>
-                    {item}
+
+                {this.state.locationType.map((type) => (
+                  <option name="locationType" key={type} value={type}>
+                    {type}
                   </option>
                 ))}
-                {this.state.breweriesByType.map((type) => (
-                  <option name="selectedCode" key={type} value={type}>
-                    {type}
+              </select>
+
+              <select
+                value={this.state.selectCountry.countryIsoCode.toString()}
+                className="btn btn-outline-secondary"
+                aria-labelledby="dropdownMenuButton"
+                onChange={this.handleCountryChange}
+              >
+                <option className="dropdown-item" defaultValue>
+                  Fiter by country
+                </option>
+
+                {this.state.countryCodes.map((country) => (
+                  <option name="locationByType" key={country} value={country}>
+                    {country}
                   </option>
                 ))}
               </select>
@@ -135,7 +196,7 @@ class Breweries extends Component {
           {this.state.breweries ? (
             <div className="breweries-container container">
               {this.state.breweries.map((brewery) => (
-                <div key={brewery.id} className="breweries-link-item">
+                <div key={brewery.id} className="breweries-link">
                   {brewery.name ? (
                     <div>
                       <Link

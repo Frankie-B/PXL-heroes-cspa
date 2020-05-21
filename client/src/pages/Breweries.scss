@@ -16,16 +16,22 @@
   .dropdown {
     margin: 1rem 0;
   }
+
+  .breweries-container {
+    .breweries-link {
+      .breweries-link-item {
+        color: #ffffff;
+      }
+    }
+  }
 }
 
 @media (min-width: 992px) {
   .Breweries {
     .form-inline {
       display: flex;
-      // width: 90vw;
       button {
         display: inline;
-        // width: 90vw;
       }
     }
   }
