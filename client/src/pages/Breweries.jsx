@@ -16,26 +16,25 @@ class Breweries extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectCountry: {
+      select: {
         countryIsoCode: '',
       },
-      selectType: {
-        locationTypeDisplay: '',
-      },
+      type: '',
       breweries: [],
-      locationType: [],
+      breweriesByType: [],
+      breweriesByCountry: [],
       countryCodes: [],
     };
 
     this.getAllBreweries = this.getAllBreweries.bind(this);
-    this.getCountryAndType = this.getCountryAndType.bind(this);
+    this.getCountryCodes = this.getCountryCodes.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
   }
 
   componentDidMount() {
     this.getAllBreweries();
-    this.getCountryAndType();
+    this.getCountryCodes();
     this._isMounted = true;
   }
 
@@ -48,10 +47,11 @@ class Breweries extends Component {
 
   handleCountryChange(e) {
     e.preventDefault();
-    let updatedCode = this.state.selectCountry;
-    updatedCode[e.target.name] = e.target.value;
+    let updatedCountryCode = this.state.select;
+    updatedCountryCode[e.target.name] = e.target.value;
+    this.getAllBreweries();
     this.setState({
-      selectCountry: updatedCode,
+      select: updatedCountryCode,
     });
     this.getAllBreweries();
   }
@@ -61,14 +61,14 @@ class Breweries extends Component {
     let locationUpdate = this.state.selectType;
     locationUpdate[e.target.name] = e.target.value;
     this.setState({
-      selectType: locationUpdate,
+      breweriesByType: locationUpdate,
     });
     this.getAllBreweries();
   }
 
   getAllBreweries() {
     axios({
-      url: '/breweries',
+      url: '/locations',
     })
       .then((res) => {
         console.log(
@@ -82,27 +82,34 @@ class Breweries extends Component {
       });
   }
 
-  getCountryAndType() {
+  getCountryCodes() {
     axios({
-      url: '/breweries',
+      url: `/locations`,
     })
       .then((res) => {
-        let isoCode = [
-          ...new Set(res.data.data.map((item) => item.countryIsoCode)),
-        ];
-        let locationType = [
-          ...new Set(
-            res.data.data.map((location) => location.locationTypeDisplay)
-          ),
+        let code = [
+          ...new Set(res.data.breweries.map((item) => item.countryIsoCode)),
         ];
         this.setState({
-          countryCodes: isoCode,
-        });
-        this.setState({
-          locationType: locationType,
+          countryCodes: code,
         });
         console.log(this.state.countryCodes.toString());
-        console.log(this.state.locationByType.toString());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  getBreweriesByCountry() {
+    axios({
+      url: `/locations`,
+    })
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          breweriesByCountry: res.data.breweries,
+        });
+        //this.removeDuplicates();
       })
       .catch((err) => {
         console.log(err);
@@ -110,20 +117,20 @@ class Breweries extends Component {
   }
 
   render() {
-    let BreweriesCountry;
-    let BreweriesType;
-    if (!this.state.selectCountry.countryIsoCode) {
-      BreweriesCountry = <h2>Breweries from all countries</h2>;
-    } else {
-      BreweriesCountry = (
-        <h2>Breweries from {this.state.selectCountry.countryIsoCode}</h2>
-      );
-    }
-    if (!this.state.selectType.locationTypeDisplay) {
-      BreweriesType = <h2>All brewery types</h2>;
-    } else {
-      BreweriesType = <h2> {this.state.selectType.locationTypeDisplay}s</h2>;
-    }
+    // let BreweriesCountry;
+    // let BreweriesType;
+    // if (!this.state.selectCountry.countryIsoCode) {
+    //   BreweriesCountry = <h2>Breweries from all countries</h2>;
+    // } else {
+    //   BreweriesCountry = (
+    //     <h2>Breweries from {this.state.selectCountry.countryIsoCode}</h2>
+    //   );
+    // }
+    // if (!this.state.selectType.locationTypeDisplay) {
+    //   BreweriesType = <h2>All brewery types</h2>;
+    // } else {
+    //   BreweriesType = <h2> {this.state.selectType.locationTypeDisplay}s</h2>;
+    // }
     return (
       <Default>
         <div className="Breweries">
@@ -155,14 +162,11 @@ class Breweries extends Component {
             </form>
 
             <div className="dropdown">
-              <select
-                value={this.state.selectType.locationTypeDisplay.toString()}
+              {/* <select
                 className="btn btn-outline-secondary"
                 aria-labelledby="dropdownMenuButton"
-                onChange={
-                  ((e) => this.handleCountryChange(e)) ||
-                  ((e) => this.handleTypeChange(e))
-                }
+                value={this.state.breweriesByType.toString()}
+                onClick={(e) => this.handleTypeChange(e)}
               >
                 <option className="dropdown-item" defaultValue>
                   Fiter by type
@@ -173,16 +177,17 @@ class Breweries extends Component {
                     {type}
                   </option>
                 ))}
-              </select>
+              </select> */}
 
               <select
-                value={this.state.selectCountry.countryIsoCode.toString()}
                 className="btn btn-outline-secondary"
                 aria-labelledby="dropdownMenuButton"
-                onChange={this.handleCountryChange}
+                value={this.state.select.countryIsoCode.toString()}
+                onChange={this.handleBeerCountryChange}
+                onClick={this.getCountryCodes}
               >
                 <option className="dropdown-item" defaultValue>
-                  Fiter by country
+                  Filter by country
                 </option>
 
                 {this.state.countryCodes.map((country) => (
@@ -220,32 +225,25 @@ class Breweries extends Component {
             </h4>
           )}
 
-          {/* {this.state.breweries ? (
-            <div className="breweries-container container">
-              {this.state.breweries.map((brewery) => (
-                <div key={brewery.id} className="breweries-link-item">
-                  {brewery.name ? (
-                    <div>
-                      <Link
-                        to={`/breweries/${brewery.id}`}
-                        className="breweries-link-item"
-                      >
-                        <h5 className="breweries-name">{brewery.name}</h5>
-                      </Link>
-                    </div>
+          {this.state.breweriesByCountry ? (
+            <div>
+              {this.state.breweriesByCountry.map((country) => (
+                <div key={country.id}>
+                  {country.breweries[0].locations[0].countryIsoCode.includes(
+                    this.state.select.selectedCode
+                  ) ? (
+                    <Link to={`/beer/${country.id}`}>
+                      <h5>{country.name}</h5>
+                    </Link>
                   ) : (
-                    <p className="breweries-not-found">
-                      That beer does not exists
-                    </p>
+                    <p>not exists</p>
                   )}
                 </div>
               ))}
             </div>
           ) : (
-            <h4 className="breweries-error">
-              Woah! Looks like you partied a little too hard!
-            </h4>
-          )} */}
+            <h4>Nothing here, try another country</h4>
+          )}
         </div>
       </Default>
     );

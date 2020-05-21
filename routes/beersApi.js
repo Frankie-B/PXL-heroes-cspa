@@ -5,7 +5,7 @@ let Axios = require('axios');
 const baseUrl = 'https://sandbox-api.brewerydb.com/v2';
 
 router.get('/beers', (req, res) => {
-  Axios.get(`${baseUrl}/beers?key=${process.env.API_KEY}`)
+  Axios.get(`${baseUrl}/beers/?withBreweries=Y&key=${process.env.API_KEY}`)
     .then((response) => {
       console.log(response.data.data);
       res.json({ beers: response.data.data }).status(200);
@@ -33,6 +33,18 @@ router.get('/breweries', (req, res) => {
   Axios.get(
     `${baseUrl}/breweries?withLocations=Y&key=${process.env.API_KEY}&withLocations=Y`
   )
+    .then((response) => {
+      console.log(response.data.data);
+      res.json({ breweries: response.data.data }).status(200);
+    })
+    .catch((err) => {
+      console.log(`Aww snap! That location does not exist: ${err}`);
+      res.json({ err }).status(500);
+    });
+});
+
+router.get('/locations', (req, res) => {
+  Axios.get(`${baseUrl}/locations/?key=${process.env.API_KEY}`)
     .then((response) => {
       console.log(response.data.data);
       res.json({ breweries: response.data.data }).status(200);
