@@ -58,9 +58,14 @@ I also created a page where I list all the breweries, and the user can search fo
 
 <b>Screenshots:</b>
 
-![Home-Mobile](https://res.cloudinary.com/frankie-dev/image/upload/v1590061960/PXL-Assets/home.png)
-![Home-Desktop](https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/home-desktop.png)
-![Breweries-Mobile](https://res.cloudinary.com/frankie-dev/image/upload/v1590061955/PXL-Assets/breweries.png)
-![Breweries-Desktop](https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/breweries-desktop.png)
-![Beers-Mobile](https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/beers.png)
-![Beers-Desktop](https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/beers-desktop.png)
+<img src="https://res.cloudinary.com/frankie-dev/image/upload/v1590061960/PXL-Assets/home.png" height="350px" />
+
+<img src="https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/home-desktop.png" />
+
+<img src="https://res.cloudinary.com/frankie-dev/image/upload/v1590061955/PXL-Assets/breweries.png" height="350px" />
+
+<img src="https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/breweries-desktop.png" />
+
+<img src="https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/beers.png" height="350px" />
+
+<img src="https://res.cloudinary.com/frankie-dev/image/upload/v1590061950/PXL-Assets/beers-desktop.png" />
