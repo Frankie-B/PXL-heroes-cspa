@@ -12,31 +12,32 @@ const axios = Axios.create({
 });
 
 class Beers extends Component {
-  _isMounted = false;
+  // _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
       select: {
         countryIsoCode: '',
       },
-      type: '',
+      name: '',
       beers: [],
-      beersByType: [],
-      beersByCountry: [],
-      countryCodes: [],
+      // beersByType: [],
+      countries: [],
+      countryCode: [],
     };
 
     this.getAllBeers = this.getAllBeers.bind(this);
-    this.getCountryCodes = this.getCountryCodes.bind(this);
-    this.getBeersByCountry = this.getBeersByCountry(this);
+    this.getIsoCode = this.getIsoCode.bind(this);
+    this.getCountries = this.getCountries(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
     // this.handleTypeChange = this.handleTypeChange.bind(this);
   }
 
   componentDidMount() {
-    this.getAllBeers();
-    this.getCountryCodes();
-    this._isMounted = true;
+    // this.getAllBeers();
+    this.getIsoCode();
+    // this._isMounted = true;
   }
 
   // componentWillUnmount() {
@@ -45,6 +46,13 @@ class Beers extends Component {
   //     return;
   //   };
   // }
+
+  handleInputChange(e) {
+    let input = e.target.value;
+    this.setState({
+      name: input.toLowerCase(),
+    });
+  }
 
   handleCountryChange(e) {
     e.preventDefault();
@@ -57,53 +65,78 @@ class Beers extends Component {
     this.getAllBeers();
   }
 
-  // handleTypeChange(e) {
-  //   e.preventDefault();
-  //   let locationUpdate = this.state.selectType;
-  //   locationUpdate[e.target.name] = e.target.value;
-  //   this.setState({
-  //     beersByType: locationUpdate,
-  //   });
-  //   this.getAllBeers();
-  // }
-
   getAllBeers() {
     axios({
-      url: '/beers',
+      url: `/search/?type=beer&q=${this.state.name}`,
     })
-      .then((res) => {
-        console.log('Beep Bop Boop...Triangulation complete:', res.data.beers);
-        this.setState({ beers: res.data.beers });
+      .then((response) => {
+        console.log(
+          'Beep Bop Boop...Triangulation complete:',
+          response.data.beers
+        );
+        this.setState({ beers: response.data.beers });
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  getCountryCodes() {
+  // getBeersByName() {
+  //   axios({
+  //     url: `/search/&q=${this.state.name}`,
+  //   })
+  //     .then((res) => {
+  //       this.setState({
+  //         beersByName: res.data.data,
+  //         numberOfPages: res.data.numberOfPages,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log('No more beers here');
+  //     });
+  // }
+
+  // getBeersByType() {
+  //   axios({
+  //     url: `http://localhost:3000/search/?key=659d5c6b8f3d2447f090119e48202fdb&p=${this.state.page}&type=beer&q=${this.state.type}`,
+  //   })
+  //     .then((res) => {
+  //       this.setState({
+  //         beersByType: res.data.data,
+  //         numberOfPages: res.data.numberOfPages,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log('No more beers here');
+  //     });
+  // }
+
+  getIsoCode() {
     axios({
-      url: `/beers`,
+      url: `/locations`,
     })
-      .then((res) => {
-        let code = [...new Set(res.beers.map((item) => item.countryIsoCode))];
+      .then((response) => {
+        let code = [
+          ...new Set(response.data.beers.map((item) => item.countryIsoCode)),
+        ];
         this.setState({
-          countryCodes: code,
+          countryCode: code,
         });
-        console.log(this.state.countryCodes.toString());
+        console.log(this.state.countryCode.toString());
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  getBeersByCountry() {
+  getCountries() {
     axios({
       url: `/beers`,
     })
-      .then((res) => {
-        console.log(res);
+      .then((response) => {
+        console.log(response);
         this.setState({
-          beersByCountry: res.data.beers,
+          countries: response.data.beers,
         });
       })
       .catch((err) => {
@@ -121,10 +154,12 @@ class Beers extends Component {
           <div className="beers-search">
             <form className="form-inline my-2 my-lg-0">
               <input
+                onChange={this.handleInputChange}
+                value={this.state.name}
+                name="name"
                 className="form-control form-control-lg mr-sm-2"
-                type="search"
+                type="text"
                 placeholder="Search"
-                aria-label="Search"
               />
               <button
                 onClick={this.getAllBeers}
@@ -165,13 +200,13 @@ class Beers extends Component {
                 aria-labelledby="dropdownMenuButton"
                 value={this.state.select.countryIsoCode.toString()}
                 onChange={this.handleCountryChange}
-                onClick={this.getCountryCodes}
+                onClick={this.getIsoCode}
               >
                 <option className="dropdown-item" defaultValue>
                   Filter by country
                 </option>
 
-                {this.state.countryCodes.map((country) => (
+                {this.state.countryCode.map((country) => (
                   <option name="locationByType" key={country} value={country}>
                     {country}
                   </option>

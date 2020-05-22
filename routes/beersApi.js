@@ -16,6 +16,30 @@ router.get('/beers', (req, res) => {
     });
 });
 
+router.get('/locations', (req, res) => {
+  Axios.get(`${baseUrl}/locations?key=${process.env.API_KEY}`)
+    .then((response) => {
+      console.log(response.data.data);
+      res.json({ beers: response.data.data }).status(200);
+    })
+    .catch((err) => {
+      console.log(`Whoops seems that the keg is dry!: ${err}`);
+      res.json({ err }).status(500);
+    });
+});
+
+router.get('/search', (req, res) => {
+  Axios.get(`${baseUrl}/search?key=${process.env.API_KEY}`)
+    .then((response) => {
+      console.log(response.data.data);
+      res.json({ beers: response.data.data }).status(200);
+    })
+    .catch((err) => {
+      console.log(`Whoops seems that the keg is dry!: ${err}`);
+      res.json({ err }).status(500);
+    });
+});
+
 router.get('/beers/:id', (req, res) => {
   const beerDetail = req.params.id;
   Axios.get(`${baseUrl}/beer/${beerDetail}/?key=${process.env.API_KEY}`)
@@ -33,18 +57,6 @@ router.get('/breweries', (req, res) => {
   Axios.get(
     `${baseUrl}/breweries?withLocations=Y&key=${process.env.API_KEY}&withLocations=Y`
   )
-    .then((response) => {
-      console.log(response.data.data);
-      res.json({ breweries: response.data.data }).status(200);
-    })
-    .catch((err) => {
-      console.log(`Aww snap! That location does not exist: ${err}`);
-      res.json({ err }).status(500);
-    });
-});
-
-router.get('/locations', (req, res) => {
-  Axios.get(`${baseUrl}/locations/?key=${process.env.API_KEY}`)
     .then((response) => {
       console.log(response.data.data);
       res.json({ breweries: response.data.data }).status(200);
