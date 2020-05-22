@@ -28,18 +28,6 @@ router.get('/locations', (req, res) => {
     });
 });
 
-router.get('/search', (req, res) => {
-  Axios.get(`${baseUrl}/search?key=${process.env.API_KEY}`)
-    .then((response) => {
-      console.log(response.data.data);
-      res.json({ beers: response.data.data }).status(200);
-    })
-    .catch((err) => {
-      console.log(`Whoops seems that the keg is dry!: ${err}`);
-      res.json({ err }).status(500);
-    });
-});
-
 router.get('/beers/:id', (req, res) => {
   const beerDetail = req.params.id;
   Axios.get(`${baseUrl}/beer/${beerDetail}/?key=${process.env.API_KEY}`)

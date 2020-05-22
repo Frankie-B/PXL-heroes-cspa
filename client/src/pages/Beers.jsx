@@ -12,7 +12,7 @@ const axios = Axios.create({
 });
 
 class Beers extends Component {
-  // _isMounted = false;
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -22,30 +22,30 @@ class Beers extends Component {
       name: '',
       beers: [],
       // beersByType: [],
-      countries: [],
+      beersByCountry: [],
       countryCode: [],
     };
 
     this.getAllBeers = this.getAllBeers.bind(this);
-    this.getIsoCode = this.getIsoCode.bind(this);
-    this.getCountries = this.getCountries(this);
+    this.getCountryCode = this.getCountryCode.bind(this);
+    this.getCountries = this.getCountries.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.handleBeerCountryChange = this.handleBeerCountryChange.bind(this);
     // this.handleTypeChange = this.handleTypeChange.bind(this);
   }
 
   componentDidMount() {
-    // this.getAllBeers();
-    this.getIsoCode();
-    // this._isMounted = true;
+    this.getAllBeers();
+    this.getCountryCode();
+    this._isMounted = true;
   }
 
-  // componentWillUnmount() {
-  //   // fix Warning: Can't perform a React state update on an unmounted component / stack overflow
-  //   this.setState = (state, callback) => {
-  //     return;
-  //   };
-  // }
+  componentWillUnmount() {
+    // fix Warning: Can't perform a React state update on an unmounted component / stack overflow
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
 
   handleInputChange(e) {
     let input = e.target.value;
@@ -54,64 +54,33 @@ class Beers extends Component {
     });
   }
 
-  handleCountryChange(e) {
+  handleBeerCountryChange(e) {
     e.preventDefault();
     let updatedCountryCode = this.state.select;
     updatedCountryCode[e.target.name] = e.target.value;
-    this.getAllBeers();
+    this.getCountries();
     this.setState({
       select: updatedCountryCode,
     });
-    this.getAllBeers();
+    this.getCountries();
   }
 
   getAllBeers() {
     axios({
-      url: `/search/?type=beer&q=${this.state.name}`,
+      url: `/beers`,
     })
       .then((response) => {
-        console.log(
-          'Beep Bop Boop...Triangulation complete:',
-          response.data.beers
-        );
-        this.setState({ beers: response.data.beers });
+        console.log(response);
+        this.setState({
+          beers: response.data.beers,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  // getBeersByName() {
-  //   axios({
-  //     url: `/search/&q=${this.state.name}`,
-  //   })
-  //     .then((res) => {
-  //       this.setState({
-  //         beersByName: res.data.data,
-  //         numberOfPages: res.data.numberOfPages,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log('No more beers here');
-  //     });
-  // }
-
-  // getBeersByType() {
-  //   axios({
-  //     url: `http://localhost:3000/search/?key=659d5c6b8f3d2447f090119e48202fdb&p=${this.state.page}&type=beer&q=${this.state.type}`,
-  //   })
-  //     .then((res) => {
-  //       this.setState({
-  //         beersByType: res.data.data,
-  //         numberOfPages: res.data.numberOfPages,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log('No more beers here');
-  //     });
-  // }
-
-  getIsoCode() {
+  getCountryCode() {
     axios({
       url: `/locations`,
     })
@@ -136,12 +105,21 @@ class Beers extends Component {
       .then((response) => {
         console.log(response);
         this.setState({
-          countries: response.data.beers,
+          beersByCountry: response.data.beers,
         });
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  removeDuplicates() {
+    if (this.state.breweries) {
+      var unique = _.uniqBy(this.state.breweries, 'breweryId');
+    }
+    this.setState({
+      breweries: unique,
+    });
   }
 
   render() {
@@ -199,8 +177,8 @@ class Beers extends Component {
                 className="btn btn-outline-secondary"
                 aria-labelledby="dropdownMenuButton"
                 value={this.state.select.countryIsoCode.toString()}
-                onChange={this.handleCountryChange}
-                onClick={this.getIsoCode}
+                onChange={this.handleBeerCountryChange}
+                onClick={this.getCountryCode}
               >
                 <option className="dropdown-item" defaultValue>
                   Filter by country
