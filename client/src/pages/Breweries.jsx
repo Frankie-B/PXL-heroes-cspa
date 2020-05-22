@@ -68,14 +68,14 @@ class Breweries extends Component {
 
   getAllBreweries() {
     axios({
-      url: '/locations',
+      url: '/breweries',
     })
       .then((res) => {
-        console.log(
-          'Beep Bop Boop...Triangulation complete:',
-          res.data.breweries
-        );
-        this.setState({ breweries: res.data.breweries });
+        this.setState({
+          breweries: res.data.breweries,
+        });
+        // this.removeDuplicates();
+        console.log(this.state.breweries);
       })
       .catch((err) => {
         console.log(err);
@@ -109,28 +109,22 @@ class Breweries extends Component {
         this.setState({
           breweriesByCountry: res.data.breweries,
         });
-        //this.removeDuplicates();
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  removeDuplicates() {
+    if (this.state.breweries) {
+      var unique = _.uniqBy(this.state.breweries, 'breweryId');
+    }
+    this.setState({
+      breweries: unique,
+    });
+  }
+
   render() {
-    // let BreweriesCountry;
-    // let BreweriesType;
-    // if (!this.state.selectCountry.countryIsoCode) {
-    //   BreweriesCountry = <h2>Breweries from all countries</h2>;
-    // } else {
-    //   BreweriesCountry = (
-    //     <h2>Breweries from {this.state.selectCountry.countryIsoCode}</h2>
-    //   );
-    // }
-    // if (!this.state.selectType.locationTypeDisplay) {
-    //   BreweriesType = <h2>All brewery types</h2>;
-    // } else {
-    //   BreweriesType = <h2> {this.state.selectType.locationTypeDisplay}s</h2>;
-    // }
     return (
       <Default>
         <div className="Breweries">

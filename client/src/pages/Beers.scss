@@ -9,6 +9,8 @@
     margin-top: 2rem;
     .beers-title {
       font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: underline;
     }
   }
   button.btn-desktop {
@@ -20,13 +22,14 @@
   .beers-container {
     display: flex;
     flex-flow: wrap;
+    justify-content: center;
     margin: 0 auto;
     padding: 3% 5%;
-    text-align: left;
+    text-align: center;
     .beers-link-item {
       color: #ffffff;
       .beers-name {
-        font-size: 0.75rem;
+        font-size: 1.5rem;
         margin-bottom: 15px;
       }
       .beers-not-found {

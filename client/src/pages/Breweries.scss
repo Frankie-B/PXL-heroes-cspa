@@ -18,9 +18,24 @@
   }
 
   .breweries-container {
-    .breweries-link {
-      .breweries-link-item {
-        color: #ffffff;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 3% 5%;
+    text-align: center;
+    .breweries-link-item {
+      color: #ffffff;
+      .breweries-name {
+        font-size: 1.5rem;
+        margin: 15px;
+      }
+      .breweries-not-found {
+        display: none;
+      }
+      .breweries-error {
+        font-size: 1rem;
+        text-align: center;
       }
     }
   }
