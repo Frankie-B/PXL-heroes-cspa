@@ -35,9 +35,11 @@ When I had a working route and working request, i created a method on the front 
 
 
 ********* Challenges I faced and how I overcame them *****************
+
+
 Scope of my approach. Initially i had a larger idea and I felt that I was attempting to make this overly complicated, but this resulted in scope debt and I realized that I had to scale back.
 
-The DRYness of my code,  I felt like I was doing a lot of repetition so made efforts to refactor my code.
+
 
 Dealing with APIs is something I find challenging and so to help with this, reading the docs as well as running
 tests on my routes with Postman to see if the route worked as expected and if I was returning the expected data.
