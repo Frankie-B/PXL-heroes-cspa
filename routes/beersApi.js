@@ -42,9 +42,7 @@ router.get('/beers/:id', (req, res) => {
 });
 
 router.get('/breweries', (req, res) => {
-  Axios.get(
-    `${baseUrl}/breweries?withLocations=Y&key=${process.env.API_KEY}&withLocations=Y`
-  )
+  Axios.get(`${baseUrl}/breweries?key=${process.env.API_KEY}&withLocations=Y`)
     .then((response) => {
       console.log(response.data.data);
       res.json({ breweries: response.data.data }).status(200);
