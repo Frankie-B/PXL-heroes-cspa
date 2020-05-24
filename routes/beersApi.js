@@ -54,6 +54,8 @@ router.get('/brewery/:id', (req, res) => {
     });
 });
 
+/// ignore this code --- tests
+
 // router.get('/brewery/:id/beers', (req, res) => {
 //   console.log('req.params', req);
 //   const breweryDetail = req.params.id;
