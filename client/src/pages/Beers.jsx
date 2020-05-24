@@ -15,7 +15,8 @@ class Beers extends Component {
     super(props);
     this.state = {
       name: '',
-      beers: [],
+      // type: '',
+      beersByName: [],
     };
     this.getBeers = this.getBeers.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -26,9 +27,9 @@ class Beers extends Component {
   }
 
   handleInputChange(e) {
-    let inputValue = e.target.value;
+    let searchValue = e.target.value;
     this.setState({
-      name: inputValue.toLowerCase(),
+      name: searchValue.toLowerCase(),
     });
   }
 
@@ -39,7 +40,7 @@ class Beers extends Component {
       .then((res) => {
         console.log(res);
         this.setState({
-          beers: res.data.beers,
+          beersByName: res.data.beers,
         });
       })
       .catch((err) => {
@@ -63,62 +64,14 @@ class Beers extends Component {
                 name="name"
                 value={this.state.name}
                 onChange={this.handleInputChange}
-                placeholder="Filter by name"
+                placeholder="Search by name"
                 aria-label="Search"
               />
-              {/* <button
-                onClick={this.beers}
-                className="btn btn-lg btn-block d-lg-none btn-outline-light my-2 my-sm-0"
-                type="submit"
-              >
-                Search
-              </button> */}
-              {/* <button
-                onClick={this.searchCleared}
-                className="clear-search btn btn-lg btn-block d-lg-none btn-outline-light my-2 my-sm-0"
-                type="submit"
-              >
-                Clear Filter
-              </button> */}
-              {/* <button
-                onClick={this.beers}
-                className="btn-desktop btn btn-lg btn-outline-light my-2 my-sm-0"
-                type="submit"
-              >
-                Search
-              </button> */}
-              {/* <button
-                onClick={this.searchCleared}
-                className="clear-search btn-desktop btn btn-lg btn-outline-light my-2 my-sm-0"
-                type="submit"
-              >
-                Clear Filter
-              </button> */}
             </div>
 
-            {/* <div className="dropdown">
-              <select
-                className="btn btn-outline-secondary"
-                aria-labelledby="dropdownMenuButton"
-                value={this.state.option.selectedCountry.toString()}
-                onChange={this.handleCountryChange}
-                onClick={this.getCountryCodes}
-              >
-                <option className="dropdown-item" defaultValue>
-                  Filter by country
-                </option>
-
-                {this.state.countryCodes.map((country) => (
-                  <option name="selectedCountry" key={country} value={country}>
-                    {country}
-                  </option>
-                ))}
-              </select>
-            </div> */}
-
-            {this.state.beers ? (
+            {this.state.beersByName ? (
               <div className="beers-container container">
-                {this.state.beers.map((beer) => (
+                {this.state.beersByName.map((beer) => (
                   <div key={beer.id} className="beers-link-item">
                     {beer.name
                       .toLowerCase()
@@ -144,34 +97,6 @@ class Beers extends Component {
                 Whoops the fridge is empty, try another name
               </h4>
             )}
-            {/* {this.state.beersByCountry ? (
-              <div className="beers-container container">
-                {this.state.beersByCountry.map((country) => (
-                  <div key={country.id} className="beers-link-item">
-                    {country.breweries[0].locations[0].countryIsoCode.includes(
-                      this.state.select.selectedCode
-                    ) ? (
-                      <div>
-                        <Link
-                          to={`/beers/${country.id}`}
-                          className="beers-link-item"
-                        >
-                          <h5 className="beers-name">{country.name}</h5>
-                        </Link>
-                      </div>
-                    ) : (
-                      <p className="beers-not-found">
-                        That beer does not exists
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <h4 className="beers-error">
-                Whoops the fridge is empty, try another name
-              </h4>
-            )} */}
           </div>
         </div>
       </Default>

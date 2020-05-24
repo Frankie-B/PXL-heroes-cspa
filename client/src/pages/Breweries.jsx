@@ -8,7 +8,7 @@ import './Breweries.scss';
 const axios = Axios.create({
   baseURL: 'http://localhost:5000',
   withCredentials: true,
-  headers: { 'content-type': 'application/x-www-form-urlencisoCded' },
+  headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
 
 class Breweries extends Component {
@@ -17,24 +17,20 @@ class Breweries extends Component {
     super(props);
     this.state = {
       select: {
-        countryIsoCode: '',
+        selectedCountry: '',
       },
-      type: '',
       breweries: [],
-      breweriesByType: [],
-      breweriesByCountry: [],
-      countryCodes: [],
+      countryCode: [],
     };
-
-    this.getAllBreweries = this.getAllBreweries.bind(this);
+    this.getBreweries = this.getBreweries.bind(this);
     this.getCountryCodes = this.getCountryCodes.bind(this);
-    this.handleCountryChange = this.handleCountryChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.getUniqueNames = this.getUniqueNames.bind(this);
   }
 
   componentDidMount() {
-    this.getAllBreweries();
     this.getCountryCodes();
+    this.getBreweries();
     this._isMounted = true;
   }
 
@@ -45,77 +41,43 @@ class Breweries extends Component {
     };
   }
 
-  handleCountryChange(e) {
-    e.preventDefault();
-    let updatedCountryCode = this.state.select;
-    updatedCountryCode[e.target.name] = e.target.value;
-    this.getAllBreweries();
-    this.setState({
-      select: updatedCountryCode,
-    });
-    this.getAllBreweries();
-  }
-
-  handleTypeChange(e) {
-    e.preventDefault();
-    let locationUpdate = this.state.selectType;
-    locationUpdate[e.target.name] = e.target.value;
-    this.setState({
-      breweriesByType: locationUpdate,
-    });
-    this.getAllBreweries();
-  }
-
-  getAllBreweries() {
-    axios({
-      url: '/breweries',
-    })
-      .then((res) => {
-        this.setState({
-          breweries: res.data.breweries,
-        });
-        // this.removeDuplicates();
-        console.log(this.state.breweries);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   getCountryCodes() {
     axios({
-      url: `/locations`,
+      url: '/breweries',
     })
       .then((res) => {
         let code = [
           ...new Set(res.data.breweries.map((item) => item.countryIsoCode)),
         ];
         this.setState({
-          countryCodes: code,
+          countryCode: code,
         });
-        console.log(this.state.countryCodes.toString());
+        console.log(this.state.countryCode.toString());
       })
       .catch((err) => {
-        console.log(err);
+        console.log('Error');
       });
   }
 
-  getBreweriesByCountry() {
+  getBreweries() {
     axios({
-      url: `/locations`,
+      method: 'GET',
+      url: `/breweries?order=breweryName&countryIsoCode=${this.state.select.selectedCountry}`,
+      timeout: 1000,
     })
       .then((res) => {
-        console.log(res);
         this.setState({
-          breweriesByCountry: res.data.breweries,
+          breweries: res.data.breweries,
         });
+        this.getUniqueNames();
+        console.log(this.state.breweries);
       })
       .catch((err) => {
-        console.log(err);
+        console.log('Error');
       });
   }
 
-  removeDuplicates() {
+  getUniqueNames() {
     if (this.state.breweries) {
       var unique = _.uniqBy(this.state.breweries, 'breweryId');
     }
@@ -124,15 +86,28 @@ class Breweries extends Component {
     });
   }
 
+  handleInputChange(e) {
+    e.preventDefault();
+    let countryCodeIso = this.state.select;
+    countryCodeIso[e.target.name] = e.target.value;
+    this.setState({
+      select: countryCodeIso,
+    });
+    this.getBreweries();
+  }
+
   render() {
+    let BreweriesCountry = !this.state.select.selectedCountry;
+
     return (
       <Default>
         <div className="Breweries">
           <div className="breweries-heading">
             <h1 className="breweries-title">Search our index of breweries</h1>
           </div>
+
           <div className="breweries-search">
-            <form className="form-inline my-2 my-lg-0">
+            {/* <div className="form-inline my-2 my-lg-0">
               <input
                 className="form-control form-control-lg mr-sm-2"
                 type="search"
@@ -153,7 +128,7 @@ class Breweries extends Component {
               >
                 Search
               </button>
-            </form>
+            </div> */}
 
             <div className="dropdown">
               {/* <select
@@ -174,26 +149,31 @@ class Breweries extends Component {
               </select> */}
 
               <select
-                className="btn btn-outline-secondary"
-                aria-labelledby="dropdownMenuButton"
-                value={this.state.select.countryIsoCode.toString()}
-                onChange={this.handleBeerCountryChange}
-                onClick={this.getCountryCodes}
+                name="selectedCountry"
+                value={this.state.select.selectedCountry.toString()}
+                onChange={this.handleInputChange}
               >
                 <option className="dropdown-item" defaultValue>
                   Filter by country
                 </option>
 
-                {this.state.countryCodes.map((country) => (
-                  <option name="locationByType" key={country} value={country}>
+                {this.state.countryCode.map((country) => (
+                  <option name="selectedCountry" key={country} value={country}>
                     {country}
                   </option>
                 ))}
               </select>
             </div>
           </div>
+          {BreweriesCountry ? (
+            <h2>Breweries from all countries</h2>
+          ) : (
+            <h2>Breweries from {this.state.select.selectedCountry}</h2>
+          )}
+
           {this.state.breweries ? (
             <div className="breweries-container container">
+              <div className="breweries-countries">{BreweriesCountry}</div>
               {this.state.breweries.map((brewery) => (
                 <div key={brewery.id} className="breweries-link">
                   {brewery.name ? (
@@ -202,7 +182,9 @@ class Breweries extends Component {
                         to={`/breweries/${brewery.id}`}
                         className="breweries-link-item"
                       >
-                        <h5 className="breweries-name">{brewery.name}</h5>
+                        <h5 className="breweries-name">
+                          {brewery.brewery.name}
+                        </h5>
                       </Link>
                     </div>
                   ) : (
@@ -215,28 +197,9 @@ class Breweries extends Component {
             </div>
           ) : (
             <h4 className="breweries-error">
-              Woah! Looks like you partied a little too hard!
+              Looks like you partied a little too hard!That brewery does not
+              exist.
             </h4>
-          )}
-
-          {this.state.breweriesByCountry ? (
-            <div>
-              {this.state.breweriesByCountry.map((country) => (
-                <div key={country.id}>
-                  {country.breweries[0].locations[0].countryIsoCode.includes(
-                    this.state.select.selectedCode
-                  ) ? (
-                    <Link to={`/beer/${country.id}`}>
-                      <h5>{country.name}</h5>
-                    </Link>
-                  ) : (
-                    <p>not exists</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <h4>Nothing here, try another country</h4>
           )}
         </div>
       </Default>

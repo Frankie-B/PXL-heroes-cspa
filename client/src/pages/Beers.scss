@@ -28,6 +28,12 @@
   .dropdown {
     margin: 1rem 0;
   }
+
+  .beers-next {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .beers-container {
     display: flex;
     flex-flow: wrap;
