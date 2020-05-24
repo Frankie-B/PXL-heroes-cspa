@@ -61,9 +61,7 @@ class Breweries extends Component {
 
   getBreweries() {
     axios({
-      method: 'GET',
       url: `/breweries?order=breweryName&countryIsoCode=${this.state.select.selectedCountry}`,
-      timeout: 1000,
     })
       .then((res) => {
         this.setState({
@@ -73,7 +71,7 @@ class Breweries extends Component {
         console.log(this.state.breweries);
       })
       .catch((err) => {
-        console.log('Error');
+        console.log(err);
       });
   }
 
