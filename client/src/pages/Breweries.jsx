@@ -24,13 +24,13 @@ class Breweries extends Component {
       countryCode: [],
     };
     this.getBreweries = this.getBreweries.bind(this);
-    this.getCountryCodes = this.getCountryCodes.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.getUniqueNames = this.getUniqueNames.bind(this);
+    // this.getCountryCodes = this.getCountryCodes.bind(this);
+    // this.handleInputChange = this.handleInputChange.bind(this);
+    // this.getUniqueNames = this.getUniqueNames.bind(this);
   }
 
   componentDidMount() {
-    this.getCountryCodes();
+    // this.getCountryCodes();
     this.getBreweries();
     this._isMounted = true;
   }
@@ -42,33 +42,33 @@ class Breweries extends Component {
     };
   }
 
-  getCountryCodes() {
-    axios({
-      url: '/breweries',
-    })
-      .then((res) => {
-        let code = [
-          ...new Set(res.data.breweries.map((item) => item.countryIsoCode)),
-        ];
-        this.setState({
-          countryCode: code,
-        });
-        console.log(this.state.countryCode.toString());
-      })
-      .catch((err) => {
-        console.log('Error');
-      });
-  }
+  // getCountryCodes() {
+  //   axios({
+  //     url: '/breweries',
+  //   })
+  //     .then((res) => {
+  //       let code = [
+  //         ...new Set(res.data.breweries.map((item) => item.countryIsoCode)),
+  //       ];
+  //       this.setState({
+  //         countryCode: code,
+  //       });
+  //       console.log(this.state.countryCode.toString());
+  //     })
+  //     .catch((err) => {
+  //       console.log('Error');
+  //     });
+  // }
 
   getBreweries() {
     axios({
-      url: `/breweries?order=breweryName&countryIsoCode=${this.state.select.selectedCountry}`,
+      url: `/breweries`,
     })
       .then((res) => {
         this.setState({
           breweries: res.data.breweries,
         });
-        this.getUniqueNames();
+        // this.getUniqueNames();
         console.log(this.state.breweries);
       })
       .catch((err) => {
@@ -76,37 +76,37 @@ class Breweries extends Component {
       });
   }
 
-  getUniqueNames() {
-    if (this.state.breweries) {
-      var unique = _.uniqBy(this.state.breweries, 'breweryId');
-    }
-    this.setState({
-      breweries: unique,
-    });
-  }
+  // getUniqueNames() {
+  //   if (this.state.breweries) {
+  //     var unique = _.uniqBy(this.state.breweries, 'breweryId');
+  //   }
+  //   this.setState({
+  //     breweries: unique,
+  //   });
+  // }
 
-  handleInputChange(e) {
-    e.preventDefault();
-    let countryCodeIso = this.state.select;
-    countryCodeIso[e.target.name] = e.target.value;
-    this.setState({
-      select: countryCodeIso,
-    });
-    this.getBreweries();
-  }
+  // handleInputChange(e) {
+  //   e.preventDefault();
+  //   let countryCodeIso = this.state.select;
+  //   countryCodeIso[e.target.name] = e.target.value;
+  //   this.setState({
+  //     select: countryCodeIso,
+  //   });
+  //   this.getBreweries();
+  // }
 
   render() {
-    let BreweriesCountry = !this.state.select.selectedCountry;
+    // let BreweriesCountry = !this.state.select.selectedCountry;
 
     return (
       <Default>
         <div className="Breweries">
           <div className="breweries-heading">
-            <h1 className="breweries-title">Search our index of breweries</h1>
+            <h1 className="breweries-title">Index of our breweries</h1>
           </div>
 
-          <div className="breweries-search">
-            {/* <div className="form-inline my-2 my-lg-0">
+          {/* <div className="breweries-search"> */}
+          {/* <div className="form-inline my-2 my-lg-0">
               <input
                 className="form-control form-control-lg mr-sm-2"
                 type="search"
@@ -129,8 +129,8 @@ class Breweries extends Component {
               </button>
             </div> */}
 
-            <div className="dropdown">
-              {/* <select
+          {/* <div className="dropdown"> */}
+          {/* <select
                 className="btn btn-outline-secondary"
                 aria-labelledby="dropdownMenuButton"
                 value={this.state.breweriesByType.toString()}
@@ -147,7 +147,7 @@ class Breweries extends Component {
                 ))}
               </select> */}
 
-              <select
+          {/* <select
                 className="btn btn-outline-secondary"
                 name="selectedCountry"
                 value={this.state.select.selectedCountry.toString()}
@@ -169,7 +169,7 @@ class Breweries extends Component {
             <h2>Breweries from all countries</h2>
           ) : (
             <h2>Breweries from {this.state.select.selectedCountry}</h2>
-          )}
+          )} */}
 
           {this.state.breweries ? (
             <div className="breweries-container container">
@@ -181,9 +181,7 @@ class Breweries extends Component {
                         to={`/brewery/${brewery.id}`}
                         className="breweries-link-item"
                       >
-                        <h5 className="breweries-name">
-                          {brewery.brewery.name}
-                        </h5>
+                        <h5 className="breweries-name">{brewery.name}</h5>
                       </Link>
                     </div>
                   ) : (

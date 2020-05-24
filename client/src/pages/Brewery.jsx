@@ -31,14 +31,16 @@ class Brewery extends Component {
       url: `/brewery/${this.props.match.params.id}/`,
     })
       .then((res) => {
+        console.log(`${this.props.match.params.id}`);
+        console.log(res.data.brewery);
         this.setState({
-          brewery: res.data.brewery,
+          brewery: res.data.brew,
         });
-        this.getBreweryBeers();
+        // this.getBreweryBeers();
         console.log(this.state.brewery);
       })
       .catch((err) => {
-        console.log('Error');
+        console.log(err);
       });
   }
 

@@ -30,7 +30,7 @@ router.get('/beers/:id', (req, res) => {
 });
 
 router.get('/breweries', (req, res) => {
-  Axios.get(`${baseUrl}/locations/?key=${process.env.API_KEY}`)
+  Axios.get(`${baseUrl}/breweries/?withLocations&key=${process.env.API_KEY}`)
     .then((response) => {
       console.log(response.data.data);
       res.json({ breweries: response.data.data }).status(200);
@@ -41,11 +41,23 @@ router.get('/breweries', (req, res) => {
     });
 });
 
+// router.get('/breweries', (req, res) => {
+//   Axios.get(`${baseUrl}/locations/?key=${process.env.API_KEY}`)
+//     .then((response) => {
+//       console.log(response.data.data);
+//       res.json({ breweries: response.data.data }).status(200);
+//     })
+//     .catch((err) => {
+//       console.log(`Aww snap! That location does not exist: ${err}`);
+//       res.json({ err }).status(500);
+//     });
+// });
+
 router.get('/brewery/:id', (req, res) => {
   const breweryDetail = req.params.id;
-  Axios.get(`${baseUrl}/brewery/${breweryDetail}/?key=${process.env.API_KEY}`)
+  Axios.get(`${baseUrl}/brewery/aqLvLE?key=${process.env.API_KEY}`)
     .then((response) => {
-      console.log(response.data.data);
+      console.log(response);
       res.json({ brewery: response.data.data }).status(200);
     })
     .catch((err) => {
@@ -53,6 +65,19 @@ router.get('/brewery/:id', (req, res) => {
       res.json({ err }).status(500);
     });
 });
+
+// router.get('/brewery/:id', (req, res) => {
+//   const breweryDetail = req.params.id;
+//   Axios.get(`${baseUrl}/brewery/${breweryDetail}/?key=${process.env.API_KEY}`)
+//     .then((response) => {
+//       console.log(response.data.data);
+//       res.json({ brewery: response.data.data }).status(200);
+//     })
+//     .catch((err) => {
+//       console.log(`Whoops seems like we took a wrong turn!: ${err}`);
+//       res.json({ err }).status(500);
+//     });
+// });
 
 /// ignore this code --- tests
 
