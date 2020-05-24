@@ -24,6 +24,7 @@ class Brewery extends Component {
   componentDidMount() {
     this.getBrewery();
   }
+
   getBrewery() {
     // const breweryDetail = this.props.match.params.id;
     axios({
@@ -41,6 +42,7 @@ class Brewery extends Component {
       });
   }
 
+  // TODO
   // getBreweryBeers() {
   //   const breweryBeers = this.props.match.params.id;
   //   axios({
@@ -58,52 +60,64 @@ class Brewery extends Component {
   // }
 
   render() {
+    let breweryBeers = this.state.beers;
     let brewery = this.state.brewery;
     if (brewery) {
       return (
         <Default>
-          <div className="Brewery">
-            <div className="brewery-detail-detail">
-              <div className="brewery-detail-img">
-                {brewery.labels ? (
-                  <img src={brewery.labels.icon} alt="brewery-label" />
-                ) : (
-                  <p></p>
-                )}
-              </div>
-              <h1 className="brewery-detail-name">{brewery.name}</h1>
-              {brewery.style ? (
-                <div className="brewery-detail-info">
-                  <p className="brewery-detail-style-text">
-                    <b>Style: </b>
-                    {brewery.style.name}
-                  </p>
-                  <p className="brewery-detail-brewery">
-                    <b>Brewed by:</b>&nbsp;
-                    <Link
-                      className="single-link-item"
-                      to={`/breweries/${brewery}`}
-                    >
-                      {brewery.name} <br />
-                    </Link>
-                    {brewery.nameDisplay}
-                  </p>
-                  <div className="brewery-detail-abv-ibu">
-                    <p className="brewery-detail-abv">
-                      <b>ABV:</b> {brewery.abv}%
-                    </p>
-                    <p className="brewery-detail-ibu">
-                      <b>IBU:</b> {brewery.style.ibuMin} -{' '}
-                      {brewery.style.ibuMax}
-                    </p>
-                  </div>
-                </div>
+          <div className="single-brewery-page">
+            <div>
+              <h1>{brewery.name}</h1>
+              {brewery.established ? (
+                <h5>
+                  <b>Established: {brewery.established}</b>
+                </h5>
               ) : (
-                <h2 className="brewery-detail-loading">Loading...</h2>
+                <p></p>
               )}
+              <div className="brewery-img-details">
+                <div className="brewery-img">
+                  {brewery.images ? (
+                    <div>
+                      <a
+                        href={brewery.website}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          src={brewery.images.squareMedium}
+                          alt="brewery-logo"
+                        />
+                      </a>
+                    </div>
+                  ) : (
+                    <p></p>
+                  )}
+                </div>
+                <a
+                  href={brewery.website}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <h4>{brewery.website}</h4>
+                </a>
+                <div className="brewery-description">
+                  <p>{brewery.description}</p>
+                </div>
+              </div>
             </div>
-            <div className="brewery-detail-description">
-              {brewery.style ? <p>{brewery.style.description}</p> : <p></p>}
+            <div className="beers">
+              <div className="beersCounter">{breweryBeers}</div>
+              <div className="beers-box">
+                {this.state.beers.map((item) => (
+                  <div key={item.id}>
+                    <Link to={`/beer/${item.id}`}>
+                      {' '}
+                      <h5>{item.name}</h5>
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </Default>
