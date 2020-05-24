@@ -41,20 +41,33 @@ router.get('/breweries', (req, res) => {
     });
 });
 
-router.get('/breweries/:id/beers', (req, res) => {
-  console.log('req.params', req);
+router.get('/brewery/:id', (req, res) => {
   const breweryDetail = req.params.id;
-  Axios.get(
-    `${baseUrl}/brewery/${breweryDetail}/beers?key=${process.env.API_KEY}`
-  )
-    .then((res) => {
-      console.log('api response', res.data.data);
-      res.json({ beers: res.data.data }).status(200);
+  Axios.get(`${baseUrl}/brewery/${breweryDetail}/?key=${process.env.API_KEY}`)
+    .then((response) => {
+      console.log(response.data.data);
+      res.json({ brewery: response.data.data }).status(200);
     })
     .catch((err) => {
-      console.log(`This is not the brewery you are looking for: ${err}`);
+      console.log(`Whoops seems like we took a wrong turn!: ${err}`);
       res.json({ err }).status(500);
     });
 });
+
+// router.get('/brewery/:id/beers', (req, res) => {
+//   console.log('req.params', req);
+//   const breweryDetail = req.params.id;
+//   Axios.get(
+//     `${baseUrl}/brewery/${breweryDetail}/beers?key=${process.env.API_KEY}`
+//   )
+//     .then((res) => {
+//       console.log('api response', res.data.data);
+//       res.json({ beers: res.data.data }).status(200);
+//     })
+//     .catch((err) => {
+//       console.log(`This is not the brewery you are looking for: ${err}`);
+//       res.json({ err }).status(500);
+//     });
+// });
 
 module.exports = router;

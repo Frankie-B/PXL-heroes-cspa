@@ -19,6 +19,7 @@ class Breweries extends Component {
       select: {
         selectedCountry: '',
       },
+
       breweries: [],
       countryCode: [],
     };
@@ -177,7 +178,7 @@ class Breweries extends Component {
                   {brewery.name ? (
                     <div>
                       <Link
-                        to={`/breweries/${brewery.id}`}
+                        to={`/brewery/${brewery.id}`}
                         className="breweries-link-item"
                       >
                         <h5 className="breweries-name">

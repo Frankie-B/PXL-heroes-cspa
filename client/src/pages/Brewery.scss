@@ -1,0 +1,57 @@
+.Single-beer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .brewery-detail-detail {
+    .brewery-detail-name {
+      font-size: 1.5rem;
+    }
+    .brewery-detail-info {
+      .brewery-detail-style-text {
+        font-size: 1rem;
+      }
+      .brewery-detail-brewery {
+        color: #ffffff;
+        font-size: 1rem;
+        .brewery-link-item {
+          font-size: small;
+          font-weight: bold;
+          text-decoration: none;
+        }
+
+        .brewery-link-item:hover {
+          color: #ffffff;
+        }
+      }
+      .brewery-detail-abv-ibu {
+        display: flex;
+        justify-content: center;
+        .brewery-detail-ibu {
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+
+  .brewery-detail-img {
+    margin: 2% 0;
+    img {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 15px;
+    }
+  }
+
+  .brewery-detail-description {
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+    margin: 0 5% 5% 5%;
+    padding: 0 5%;
+    p {
+      margin: 0 0 1% 0;
+      line-height: 1.5em;
+    }
+  }
+}
