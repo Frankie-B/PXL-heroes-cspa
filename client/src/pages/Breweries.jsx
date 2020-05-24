@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Default from '../Layouts/Default';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 import './Breweries.scss';
 
 const axios = Axios.create({
@@ -15,12 +14,7 @@ class Breweries extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      select: {
-        selectedCountry: '',
-      },
-
       breweries: [],
-      countryCode: [],
     };
     this.getBreweries = this.getBreweries.bind(this);
   }
@@ -59,7 +53,7 @@ class Breweries extends Component {
                   {brewery.name ? (
                     <div>
                       <Link
-                        to={`/brewery/${brewery.id}`}
+                        to={`/breweries/brewery/${brewery.id}`}
                         className="breweries-link-item"
                       >
                         <h5 className="breweries-name">{brewery.name}</h5>

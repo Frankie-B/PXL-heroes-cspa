@@ -41,21 +41,9 @@ router.get('/breweries', (req, res) => {
     });
 });
 
-// router.get('/breweries', (req, res) => {
-//   Axios.get(`${baseUrl}/locations/?key=${process.env.API_KEY}`)
-//     .then((response) => {
-//       console.log(response.data.data);
-//       res.json({ breweries: response.data.data }).status(200);
-//     })
-//     .catch((err) => {
-//       console.log(`Aww snap! That location does not exist: ${err}`);
-//       res.json({ err }).status(500);
-//     });
-// });
-
 router.get('/brewery/:id', (req, res) => {
   const breweryDetail = req.params.id;
-  Axios.get(`${baseUrl}/brewery/aqLvLE?key=${process.env.API_KEY}`)
+  Axios.get(`${baseUrl}/brewery/${breweryDetail}=${process.env.API_KEY}`)
     .then((response) => {
       console.log(response);
       res.json({ brewery: response.data.data }).status(200);
@@ -65,36 +53,5 @@ router.get('/brewery/:id', (req, res) => {
       res.json({ err }).status(500);
     });
 });
-
-// router.get('/brewery/:id', (req, res) => {
-//   const breweryDetail = req.params.id;
-//   Axios.get(`${baseUrl}/brewery/${breweryDetail}/?key=${process.env.API_KEY}`)
-//     .then((response) => {
-//       console.log(response.data.data);
-//       res.json({ brewery: response.data.data }).status(200);
-//     })
-//     .catch((err) => {
-//       console.log(`Whoops seems like we took a wrong turn!: ${err}`);
-//       res.json({ err }).status(500);
-//     });
-// });
-
-/// ignore this code --- tests
-
-// router.get('/brewery/:id/beers', (req, res) => {
-//   console.log('req.params', req);
-//   const breweryDetail = req.params.id;
-//   Axios.get(
-//     `${baseUrl}/brewery/${breweryDetail}/beers?key=${process.env.API_KEY}`
-//   )
-//     .then((res) => {
-//       console.log('api response', res.data.data);
-//       res.json({ beers: res.data.data }).status(200);
-//     })
-//     .catch((err) => {
-//       console.log(`This is not the brewery you are looking for: ${err}`);
-//       res.json({ err }).status(500);
-//     });
-// });
 
 module.exports = router;

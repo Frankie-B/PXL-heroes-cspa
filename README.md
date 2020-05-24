@@ -36,13 +36,9 @@ When I had a working route and working request, i created a method on the front 
 
 ********* Challenges I faced and how I overcame them *****************
 
+I find dealing with APIs to be very challenging, this is definitely a weak area for me, and attempting this assignment showed me that it is an area I really need to focus on. I did reading the documentation as well as running tests on my routes with Postman to see if the route worked as expected and if I was returning the expected data.
 
-Scope of my approach. Initially i had a larger idea and I felt that I was attempting to make this overly complicated, but this resulted in scope debt and I realized that I had to scale back.
-
-
-
-Dealing with APIs is something I find challenging and so to help with this, reading the docs as well as running
-tests on my routes with Postman to see if the route worked as expected and if I was returning the expected data.
+I tried to be ambitious and learned that there is a lot of growth needed in this area.
 
 
 ```

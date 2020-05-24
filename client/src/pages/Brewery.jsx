@@ -17,112 +17,132 @@ class Brewery extends Component {
       brewery: [],
       beers: [],
     };
-    this.getBrewery = this.getBrewery.bind(this);
-    // this.getBreweryBeers = this.getBreweryBeers.bind(this);
+    this.getBreweryBeers = this.getBreweryBeers.bind(this);
   }
 
-  componentDidMount() {
-    this.getBrewery();
-  }
-
-  getBrewery() {
-    // const breweryDetail = this.props.match.params.id;
-    axios({
-      url: `/brewery/${this.props.match.params.id}/`,
-    })
-      .then((res) => {
-        console.log(`${this.props.match.params.id}`);
-        console.log(res.data.brewery);
+  getBreweryBeers() {
+    const selectedBrewery = this.props.match.params.id;
+    axios
+      .get(`/breweries/${selectedBrewery}/beers`)
+      .then((response) => {
+        console.log('all beers of this brewery: ', response.data);
         this.setState({
-          brewery: res.data.brew,
+          beers: response.data.beers,
         });
-        // this.getBreweryBeers();
-        console.log(this.state.brewery);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log('Error fetching beers for brewery', error);
       });
   }
 
-  // TODO
+  componentDidMount() {
+    this.getBreweryBeers();
+  }
+
   // getBreweryBeers() {
-  //   const breweryBeers = this.props.match.params.id;
+  //   const breweryId = this.props.match.params.id;
   //   axios({
-  //     url: `/brewery/${breweryBeers}/beers/`,
+  //     url: `/breweries/brewery/${breweryId}/`,
   //   })
   //     .then((res) => {
+  //       console.log(`${this.props.match.params.id}`);
+  //       console.log(res);
   //       this.setState({
-  //         beers: res.brewery.beers,
+  //         breweryBeers: res.data.brewery,
   //       });
-  //       console.log(this.state.beers);
+  //       // this.getBreweryBeers();
+  //       console.log(this.state.brewery);
   //     })
   //     .catch((err) => {
-  //       console.log('Error');
+  //       console.log(err);
   //     });
   // }
 
+  // TODO
+  getBreweryBeers() {
+    const breweryBeers = this.props.match.params.id;
+    axios({
+      url: `/brewery/${breweryBeers}/beers/`,
+    })
+      .then((res) => {
+        this.setState({
+          beers: res.brewery.beers,
+        });
+        console.log(this.state.beers);
+      })
+      .catch((err) => {
+        console.log('Error');
+      });
+  }
+
   render() {
-    let breweryBeers = this.state.beers;
-    let brewery = this.state.brewery;
-    if (brewery) {
+    let Beers;
+    if (this.state.beers.length === 0) {
+      Beers = <h2>Loading...</h2>;
+    } else if (this.state.beers.length === 1) {
+      Beers = (
+        <h2>
+          The brewery produces <u>{this.state.beers.length}</u> beer:{' '}
+        </h2>
+      );
+    } else {
+      Beers = (
+        <h2>
+          The brewery produces <u>{this.state.beers.length}</u> beers:{' '}
+        </h2>
+      );
+    }
+    let brew = this.state.brewery;
+    if (brew && this.state.beers) {
       return (
-        <Default>
-          <div className="single-brewery-page">
-            <div>
-              <h1>{brewery.name}</h1>
-              {brewery.established ? (
-                <h5>
-                  <b>Established: {brewery.established}</b>
-                </h5>
-              ) : (
-                <p></p>
-              )}
-              <div className="brewery-img-details">
-                <div className="brewery-img">
-                  {brewery.images ? (
-                    <div>
-                      <a
-                        href={brewery.website}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        <img
-                          src={brewery.images.squareMedium}
-                          alt="brewery-logo"
-                        />
-                      </a>
-                    </div>
-                  ) : (
-                    <p></p>
-                  )}
-                </div>
-                <a
-                  href={brewery.website}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <h4>{brewery.website}</h4>
-                </a>
-                <div className="brewery-description">
-                  <p>{brewery.description}</p>
-                </div>
-              </div>
-            </div>
-            <div className="beers">
-              <div className="beersCounter">{breweryBeers}</div>
-              <div className="beers-box">
-                {this.state.beers.map((item) => (
-                  <div key={item.id}>
-                    <Link to={`/beer/${item.id}`}>
-                      {' '}
-                      <h5>{item.name}</h5>
-                    </Link>
+        <div className="single-brew-page">
+          <div>
+            <h1>{brew.name}</h1>
+            {brew.established ? (
+              <h5>
+                <b>Established: {brew.established}</b>
+              </h5>
+            ) : (
+              <p></p>
+            )}
+            <div className="brew-img-details">
+              <div className="brew-img">
+                {brew.images ? (
+                  <div>
+                    <a
+                      href={brew.website}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img src={brew.images.squareMedium} alt="brewery-logo" />
+                    </a>
                   </div>
-                ))}
+                ) : (
+                  <p></p>
+                )}
+              </div>
+              <a href={brew.website} rel="noopener noreferrer" target="_blank">
+                <h4>{brew.website}</h4>
+              </a>
+              <div className="brew-description">
+                <p>{brew.description}</p>
               </div>
             </div>
           </div>
-        </Default>
+          <div className="beers">
+            <div className="beersCounter">{Beers}</div>
+            <div className="beers-box">
+              {this.state.beers.map((item) => (
+                <div key={item.id}>
+                  <Link to={`/beer/${item.id}`}>
+                    {' '}
+                    <h5>{item.name}</h5>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       );
     } else {
       return (
