@@ -147,6 +147,7 @@ class Breweries extends Component {
               </select> */}
 
               <select
+                className="btn btn-outline-secondary"
                 name="selectedCountry"
                 value={this.state.select.selectedCountry.toString()}
                 onChange={this.handleInputChange}
