@@ -171,7 +171,6 @@ class Breweries extends Component {
 
           {this.state.breweries ? (
             <div className="breweries-container container">
-              <div className="breweries-countries">{BreweriesCountry}</div>
               {this.state.breweries.map((brewery) => (
                 <div key={brewery.id} className="breweries-link">
                   {brewery.name ? (
