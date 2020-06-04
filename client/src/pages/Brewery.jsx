@@ -39,26 +39,6 @@ class Brewery extends Component {
     this.getBreweryBeers();
   }
 
-  // getBreweryBeers() {
-  //   const breweryId = this.props.match.params.id;
-  //   axios({
-  //     url: `/breweries/brewery/${breweryId}/`,
-  //   })
-  //     .then((res) => {
-  //       console.log(`${this.props.match.params.id}`);
-  //       console.log(res);
-  //       this.setState({
-  //         breweryBeers: res.data.brewery,
-  //       });
-  //       // this.getBreweryBeers();
-  //       console.log(this.state.brewery);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
-  // TODO
   getBreweryBeers() {
     const breweryBeers = this.props.match.params.id;
     axios({

@@ -46,6 +46,25 @@ class Breweries extends Component {
             <h1 className="breweries-title">Index of our breweries</h1>
           </div>
 
+          <div className="dropdown">
+            <select
+              aria-label="country-code"
+              name="selectedCode"
+              value={this.state.select.selectedCode.toString()}
+              onChange={this.handleInputChange}
+            >
+              <option className="dropdown-item" defaultValue>
+                Filter by country
+              </option>
+
+              {this.state.countryCode.map((country) => (
+                <option name="selectedCode" key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {this.state.breweries ? (
             <div className="breweries-container container">
               {this.state.breweries.map((brewery) => (

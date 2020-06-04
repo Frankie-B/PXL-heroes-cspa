@@ -22,11 +22,13 @@ npm run client
 
 ## App Info
 
+On the sever side, you will be required to create a .env file a place your BreweryDB API Key there
+
 I chose to take a mobile first approach when think about the layout.
 
 Layout and positioning was done using flexbox.
 
-To handle the routes and  API calls data I created a simple NodeJs Express server.
+To handle the routes and  API calls data I created a  NodeJs Express server.
 
 I utilized axios for my requests, i also made use of postman as a means of testing my routes were working.
 
